@@ -3,18 +3,23 @@
 import { useEffect } from "react";
 import Image from "next/image";
 import './cssEffects/decodeText/decodeTextCSS.css';
+import './cssEffects/neon/neonImage.css'
+import Typewriter from './cssEffects/typewriter/Typewriter'; // Import the Typewriter component
 import { decodeText } from "./cssEffects/decodeText/decodeTextTS";
+import './cssEffects/noiseGround/noiseGround.css'
+import { noise } from "./cssEffects/noiseGround/noiseGround"
 
 export default function Home() {
 
   useEffect(() => {
     decodeText(); // Run the decodeText function after the component mounts
+    noise();
   }, []);
 
   return (
-    <main className="flex min-h-screen">
-      <div className="min-h-screen w-full fixed bg-gradient-to-t from-gray-950 to-black"></div>
-      <div className = "flex-col items-center justify-between p-24">
+    <main className="flex min-h-screen w-full fixed bg-gradient-to-t from-white to-gray-900">
+      <canvas id="noise" className="noise"></canvas>
+      <div className = "items-center justify-between p-24">
         <div className="decode-text">
           <div className="text-animation">E</div>
           <div className="text-animation">o</div>
@@ -34,6 +39,14 @@ export default function Home() {
           <div className="text-animation">n</div>
           <div className="text-animation">s</div>
           <div className="space"></div>
+        </div>
+        <div className="text-white p-10">
+          <Typewriter text="Engineer. Programmer. Artist. Inventor." />
+        </div>
+        <div className="neon-image-container flex justify-between pt-52">
+          <img src="/neoni/tech.svg" alt="Neon Image" className="neon-image"/>
+          <img src="/neoni/create.svg" alt="Neon Image" className="neon-image"/>
+          <img src="/neoni/contact.svg" alt="Neon Image" className="neon-image"/>
         </div>
       </div>
 

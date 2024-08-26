@@ -1,0 +1,24 @@
+.typewriter {
+  font-family: monospace;
+  font-size: 1.5em;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 0.15em solid;
+  padding: 0 0.1em;
+}
+
+.cursor {
+  display: inline-block;
+  background-color: currentColor;
+  animation: blink 0.7s steps(2) infinite;
+  margin-left: 2px;
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
