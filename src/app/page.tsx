@@ -3,7 +3,8 @@
 import { useEffect } from "react";
 import Image from "next/image";
 import './cssEffects/decodeText/decodeTextCSS.css';
-import './cssEffects/neon/neonImage.css'
+// import './cssEffects/neon/neonImage.css'
+import './cssEffects/neon2/neonImage.css'
 import Typewriter from './cssEffects/typewriter/Typewriter'; // Import the Typewriter component
 import { decodeText } from "./cssEffects/decodeText/decodeTextTS";
 import './cssEffects/noiseGround/noiseGround.css'
@@ -17,7 +18,8 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="flex min-h-screen w-full fixed bg-gradient-to-t from-white to-gray-900">
+    <main className="flex min-h-screen w-full fixed"> {/*bg-gradient-to-t from-white to-gray-900*/}
+      <img src="/wall.jpg" alt="background image" className="min-h-screen w-full fixed -z-10 filter brightness-50"></img>
       <canvas id="noise" className="noise"></canvas>
       <div className = "items-center justify-between p-24">
         <div className="decode-text">
@@ -40,20 +42,52 @@ export default function Home() {
           <div className="text-animation">s</div>
           <div className="space"></div>
         </div>
-        <div className="text-white p-10">
+        <div className="text-white p-10"> {/*Typewriter Text*/}
           <Typewriter text="Engineer. Programmer. Artist. Inventor." />
         </div>
-        <div className="neon-image-container flex justify-between pt-52">
-          <img src="/neoni/tech.svg" alt="Neon Image" className="neon-image"/>
-          <img src="/neoni/create.svg" alt="Neon Image" className="neon-image"/>
-          <img src="/neoni/contact.svg" alt="Neon Image" className="neon-image"/>
+        <div className="neon-image-container flex justify-between w-full">
+          <div className="neon-image-wrapper">
+            <Image
+              src="/neoni/tech.svg"
+              alt="Neon Effect Image"
+              width={300}
+              height={300}
+              objectFit="contain"
+              className="neon-image"
+            />
+          </div>
+          <div className="neon-image-wrapper">
+            <Image
+              src="/neoni/create.svg"
+              alt="Neon Effect Image"
+              width={300}
+              height={300}
+              objectFit="contain"
+              className="neon-image"
+            />
+          </div>
+          <div className="neon-image-wrapper">
+            <Image
+              src="/neoni/freelance.svg"
+              alt="Neon Effect Image"
+              width={300}
+              height={300}
+              objectFit="contain"
+              className="neon-image"
+            />
+          </div>
+          <div className="neon-image-wrapper">
+            <Image
+              src="/neoni/contact.svg"
+              alt="Neon Effect Image"
+              width={300}
+              height={300}
+              objectFit="contain"
+              className="neon-image"
+            />
+          </div>
         </div>
       </div>
-
-      {/* <a id="refresh" onClick={() => decodeText()}>
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
-      </a> */}
-
     </main>
   );
 }
