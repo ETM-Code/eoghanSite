@@ -1,25 +1,35 @@
-.neon-image-container {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    position: absolute;
-    bottom: 10%; /* Adjust as needed */
-    left: 0;
-    padding: 0 5%; /* Add some padding on the sides */
+.neon-image-wrapper {
+  width: 100%;
+  max-width: 300px;
+  aspect-ratio: 1 / 1;
+  position: relative;
+  filter: brightness(0) invert(0.4) sepia(1) hue-rotate(0deg) saturate(0%)
+    drop-shadow(0 0 10px rgba(0, 173, 239, 0))
+    drop-shadow(0 0 20px rgba(0, 173, 239, 0))
+    drop-shadow(0 0 30px rgba(0, 173, 239, 0));
+  transition: filter 0.3s ease-in-out;
+}
+
+.neon-image-wrapper.active,
+.neon-image-wrapper:hover {
+  filter: brightness(0) invert(1) sepia(1) hue-rotate(-20deg) saturate(500%)
+    drop-shadow(0 0 20px rgba(255, 68, 68, 1))
+    drop-shadow(0 0 30px rgba(255, 68, 68, 0.9))
+    drop-shadow(0 0 40px rgba(255, 68, 68, 0.8));
+  animation: flicker 5s infinite;
+}
+
+@keyframes flicker {
+  0%, 19%, 21%, 25%, 30%, 54%, 57%, 100% {
+    opacity: 1;
   }
-  
-  .neon-image-wrapper {
-    width: 30%; /* Adjust as needed */
-    max-width: 300px;
-    aspect-ratio: 1 / 1;
-    position: relative;
-    filter: brightness(0) invert(0.4) sepia(1) hue-rotate(0deg) saturate(0%)
-      drop-shadow(0 0 10px rgba(0, 173, 239, 0))
-      drop-shadow(0 0 20px rgba(0, 173, 239, 0))
-      drop-shadow(0 0 30px rgba(0, 173, 239, 0));
-    transition: filter 0.3s ease-in-out;
+  20%, 24%, 55% {
+    opacity: 0.4;
   }
-  
+}
+
+/* Desktop styles */
+@media (min-width: 768px) {
   .neon-image-wrapper:hover {
     filter: brightness(0) invert(1) sepia(1) hue-rotate(-20deg) saturate(500%)
       drop-shadow(0 0 20px rgba(255, 68, 68, 1))
@@ -27,12 +37,22 @@
       drop-shadow(0 0 40px rgba(255, 68, 68, 0.8));
     animation: flicker 5s infinite;
   }
-  
-  @keyframes flicker {
-    0%, 19%, 21%, 25%, 30%, 54%, 57%, 100% {
-      opacity: 1;
-    }
-    20%, 24%, 55% {
-      opacity: 0.4;
-    }
+
+  .neon-image-wrapper.active:not(:hover) {
+    filter: none;
+    animation: none;
   }
+}
+
+/* Mobile styles */
+@media (max-width: 767px) {
+  .mobile-view .neon-image-wrapper {
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  .mobile-view .neon-image-container {
+    gap: 2rem;
+    padding-top: 1rem;
+  }
+}

@@ -16,6 +16,26 @@
   }
 } */
 
+.header-gradient {
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.8) 40%,
+    rgba(0, 0, 0, 1) 100%
+  );
+  padding-bottom: 5rem; /* Adjust this value to control where the gradient ends */
+}
+
+/* Adjust the height of the header to accommodate the gradient */
+header {
+  min-height: 150px; /* Adjust this value as needed */
+}
+
+/* Ensure the content below the header doesn't get hidden */
+main {
+  padding-top: 150px; /* This should match the header's min-height */
+}
+
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(

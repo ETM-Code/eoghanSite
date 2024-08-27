@@ -5,39 +5,34 @@
 These states are shuffled for a unique "decode" effect each time.
 * ------------------------------------------------------------------------ */
 
-export function decodeText(){
-    var text = document.getElementsByClassName('decode-text')[0] as HTMLElement;
-    // debug with
-    // console.log(text, text.children.length);
-
-    // assign the placeholder array its places
-
-    // Ensure that the element exists before trying to manipulate it
-    if (!text) {
-        console.error('No element with class "decode-text" found.');
-        return;
+export function decodeText() {
+    const text = document.querySelector('.decode-text') as HTMLElement;
+    if (!text) return;
+  
+    const letters = text.querySelectorAll('.text-animation');
+  
+    let state = Array(letters.length).fill(0);
+    let shuffled = shuffle(Array.from({length: letters.length}, (_, i) => i));
+  
+    function animate(index: number) {
+      let letter = letters[shuffled[index]] as HTMLElement;
+      let stateIndex = state[shuffled[index]];
+  
+      if (stateIndex < 3) {
+        letter.classList.remove(`state-${stateIndex}`);
+        letter.classList.add(`state-${stateIndex + 1}`);
+        state[shuffled[index]]++;
+  
+        let delay = Math.floor(Math.random() * 150 + 25);
+        setTimeout(() => animate(index), delay);
+      } else if (index < shuffled.length - 1) {
+        animate(index + 1);
+      }
     }
+  
+    animate(0);
+  }
 
-    var state = [];
-    for(var i = 0, j = text.children.length; i < j; i++ ){
-        text.children[i].classList.remove('state-1','state-2','state-3');
-        state[i] = i;
-    }
-
-    // shuffle the array to get new sequences each time
-    var shuffled = shuffle(state);
- 
-    for(var i = 0, j:number = shuffled.length; i < j; i++ ){
-        var child = text.children[shuffled[i]];
-        const classes = child.classList;
-
-        // fire the first one at random times
-        var state1Time = Math.round( Math.random() * (2000 - 300) ) + 50;
-        if(classes.contains('text-animation')){ 
-            setTimeout(firstStages.bind(null, child), state1Time);
-        }
-    }
-}
 
 // send the node for later .state changes
 function firstStages(child: any){
@@ -66,22 +61,13 @@ function thirdStages(child: any){
     }
 }
 
-function shuffle(array: any) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
-
-    // While there remain elements to shuffle...
-    while (0 !== currentIndex) {
-        // Pick a remaining element...
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-
-        // And swap it with the current element.
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
+function shuffle(array: number[]): number[] {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
     }
     return array;
-}
+  }
 
 
 // Demo only stuff
