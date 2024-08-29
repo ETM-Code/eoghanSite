@@ -7,7 +7,7 @@ const nextConfig = {
         unoptimized: true,
       },
     basePath: '/eoghanSite', // Replace 'eoghanSite' with your repository name or subdirectory
-    assetPrefix: '/eoghanSite/', // Same as basePath
+    assetPrefix: '.', // Same as basePath
 };
 
 export default nextConfig;
