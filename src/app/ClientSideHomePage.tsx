@@ -15,6 +15,7 @@ export default function ClientSideHomePage() {
   const [activeIcon, setActiveIcon] = useState<number | null>(null);
   const [isMobile, setIsMobile] = useState(false);
   const [isClient, setIsClient] = useState(false);
+  const [, setForceUpdate] = useState({});
 
   const handleResize = useCallback(() => {
     setIsMobile(window.innerWidth < 768); // Adjust this breakpoint as needed
@@ -44,10 +45,19 @@ export default function ClientSideHomePage() {
     }
   }, [isMobile]);
 
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setForceUpdate({});
+    }, 1000);
+  
+    return () => clearTimeout(timer);
+  }, []);
+
+  
   useEffect(() => {
     setIsClient(true);
     decodeText();
-    console.log("Text should be decoding ig");
     noise();
 
     handleResize();
@@ -70,7 +80,7 @@ export default function ClientSideHomePage() {
 
 
   return (
-    <main className={`flex flex-col min-h-screen w-full mobile-view`}>
+    <main className={`flex flex-col min-h-screen w-full ${isMobile ? 'mobile-view' : ''}`}>
       <img src="/wall.jpg" alt="background image" className="fixed inset-0 w-full h-full object-cover -z-10 filter brightness-50" />
       <canvas id="noise" className="noise fixed inset-0 -z-5"></canvas>
 
