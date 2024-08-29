@@ -1,13 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    basePath: "/2048-in-react",
+    // basePath: "/2048-in-react",
     output: "export",  // <=== enables static exports
     reactStrictMode: true,
     images: {
         unoptimized: true,
       },
-      assetPrefix: process.env.NODE_ENV === 'production' ? '/<REPO_NAME>' : '',
-      basePath: process.env.NODE_ENV === 'production' ? '/<REPO_NAME>' : '',
+      assetPrefix: process.env.NODE_ENV === 'production' ? '/eoghanSite' : '',
+      basePath: process.env.NODE_ENV === 'production' ? '/eoghanSite' : '',
 };
 
 export default nextConfig;
