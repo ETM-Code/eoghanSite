@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useCallback, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import debounce from 'lodash/debounce';
 import './cssEffects/decodeText/decodeTextCSS.css';
 import './cssEffects/neon2/neonImage.css'
@@ -88,15 +89,15 @@ export default function Home() {
         </div>
       </header>
 
-      <div className="flex-grow flex flex-col items-left justify-start p-4 mt-[800px] sm:mt-[250px] md:mt-[200px] md:justify-center">
+      <div className="flex-grow flex flex-col items-left justify-start p-4 mt-[800px] sm:mt-[250px] md:mt-[200px] lg:mt-[0px] md:justify-center">
         <div className="text-white mb-10 mt-8 md:mt-0">
           <Typewriter text="Engineer. Programmer. Artist. Inventor." />
         </div>
 
         <div ref={neonImagesRef} className="neon-image-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 w-full">
-          {['tech', 'create', 'freelance', 'contact'].map((item, index) => (
+          {['technical', 'creative', 'misc', 'contact'].map((item, index) => (
+            <a href={`/${item}`} key={item}> 
             <div 
-              key={item} 
               className={`neon-image-wrapper aspect-square ${isMobile && activeIcon === index ? 'active' : ''}`}
             >
               <Image
@@ -108,6 +109,7 @@ export default function Home() {
                 className="neon-image"
               />
             </div>
+            </a>
           ))}
         </div>
       </div>

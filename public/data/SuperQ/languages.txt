@@ -1,0 +1,7 @@
+JavaScript
+TypeScript
+CSS
+Next.js
+React
+Python
+SQL

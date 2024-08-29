@@ -1,0 +1,22 @@
+{
+    "github": [
+      {
+        "url": "https://github.com/ETM-Code/forceField",
+        "label": "Force Field Repository"
+      },
+      {
+        "url": "https://github.com/ETM-Code/ESP-Now-Node",
+        "label": "ESP-Now Node Repository"
+      },
+      {
+        "url": "https://github.com/ETM-Code/ESP-Now-Node/tree/AP-Module",
+        "label": "ESP-Now Node AP Module"
+      }
+    ],
+    "googleDrive": [
+      {
+        "url": "https://docs.google.com/presentation/d/1gOUGFIge4SeCYyBTbbkhZsl-uG1EomZEuNRoP7RQtN4/edit#slide=id.g2f2201a135c_1_113",
+        "label": "Project Presentation"
+      }
+    ]
+  }
