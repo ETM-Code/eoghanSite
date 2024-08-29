@@ -5,7 +5,7 @@ import Link from "next/link";
 import debounce from 'lodash/debounce';
 import './cssEffects/decodeText/decodeTextCSS.css';
 import './cssEffects/neon2/neonImage.css'
-import Typewriter from './cssEffects/typewriter/Typewriter';
+import Typewriter from './cssEffects/typewriter/typewriter';
 import { decodeText } from "./cssEffects/decodeText/decodeTextTS";
 import './cssEffects/noiseGround/noiseGround.css'
 import { noise } from "./cssEffects/noiseGround/noiseGround"
