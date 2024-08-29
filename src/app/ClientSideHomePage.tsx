@@ -47,6 +47,7 @@ export default function ClientSideHomePage() {
   useEffect(() => {
     setIsClient(true);
     decodeText();
+    console.log("Text should be decoding ig");
     noise();
 
     handleResize();

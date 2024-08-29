@@ -71,7 +71,7 @@ function shuffle(array: number[]): number[] {
 
 
 // Demo only stuff
-decodeText();
+// decodeText();
 
 // beware: refresh button can overlap this timer and cause state mixups
 // setInterval(function(){ decodeText(); }, 10000);
