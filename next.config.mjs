@@ -6,8 +6,8 @@ const nextConfig = {
     images: {
         unoptimized: true,
       },
-      assetPrefix: process.env.NODE_ENV === 'production' ? '/eoghanSite' : '',
-      basePath: process.env.NODE_ENV === 'production' ? '/eoghanSite' : '',
+    basePath: '/eoghanSite', // Replace 'eoghanSite' with your repository name or subdirectory
+    assetPrefix: '/eoghanSite/', // Same as basePath
 };
 
 export default nextConfig;
