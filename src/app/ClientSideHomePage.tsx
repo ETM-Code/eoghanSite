@@ -69,7 +69,7 @@ export default function ClientSideHomePage() {
 
 
   return (
-    <main className={`flex flex-col min-h-screen w-full ${isMobile ? 'mobile-view' : ''}`}>
+    <main className={`flex flex-col min-h-screen w-full mobile-view`}>
       <img src="/wall.jpg" alt="background image" className="fixed inset-0 w-full h-full object-cover -z-10 filter brightness-50" />
       <canvas id="noise" className="noise fixed inset-0 -z-5"></canvas>
 
