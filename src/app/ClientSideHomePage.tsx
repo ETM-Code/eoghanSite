@@ -46,13 +46,13 @@ export default function ClientSideHomePage() {
   }, [isMobile]);
 
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setForceUpdate({});
-    }, 1000);
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setForceUpdate({});
+  //   }, 1000);
   
-    return () => clearTimeout(timer);
-  }, []);
+  //   return () => clearTimeout(timer);
+  // }, []);
 
   
   useEffect(() => {

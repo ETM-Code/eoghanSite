@@ -6,32 +6,47 @@ These states are shuffled for a unique "decode" effect each time.
 * ------------------------------------------------------------------------ */
 
 export function decodeText() {
-    const text = document.querySelector('.decode-text') as HTMLElement;
-    if (!text) return;
-  
-    const letters = text.querySelectorAll('.text-animation');
-  
-    let state = Array(letters.length).fill(0);
-    let shuffled = shuffle(Array.from({length: letters.length}, (_, i) => i));
-  
-    function animate(index: number) {
-      let letter = letters[shuffled[index]] as HTMLElement;
-      let stateIndex = state[shuffled[index]];
-  
-      if (stateIndex < 3) {
-        letter.classList.remove(`state-${stateIndex}`);
-        letter.classList.add(`state-${stateIndex + 1}`);
-        state[shuffled[index]]++;
-  
-        let delay = Math.floor(Math.random() * 150 + 25);
-        setTimeout(() => animate(index), delay);
-      } else if (index < shuffled.length - 1) {
-        animate(index + 1);
+  const maxRetries = 10;
+  let retryCount = 0;
+
+  function attemptDecode() {
+      const text = document.querySelector('.decode-text') as HTMLElement;
+      if (!text) {
+          if (retryCount < maxRetries) {
+              retryCount++;
+              setTimeout(attemptDecode, 100);  // Retry after 100ms
+          } else {
+              console.error('Failed to find .decode-text element after multiple attempts');
+          }
+          return;
       }
-    }
-  
-    animate(0);
+
+      const letters = text.querySelectorAll('.text-animation');
+
+      let state = Array(letters.length).fill(0);
+      let shuffled = shuffle(Array.from({length: letters.length}, (_, i) => i));
+
+      function animate(index: number) {
+          let letter = letters[shuffled[index]] as HTMLElement;
+          let stateIndex = state[shuffled[index]];
+
+          if (stateIndex < 3) {
+              letter.classList.remove(`state-${stateIndex}`);
+              letter.classList.add(`state-${stateIndex + 1}`);
+              state[shuffled[index]]++;
+
+              let delay = Math.floor(Math.random() * 150 + 25);
+              setTimeout(() => animate(index), delay);
+          } else if (index < shuffled.length - 1) {
+              animate(index + 1);
+          }
+      }
+
+      animate(0);
   }
+
+  attemptDecode();
+}
 
 
 // send the node for later .state changes
