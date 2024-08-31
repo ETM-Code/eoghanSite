@@ -9,9 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tailwindcss/typography": "^0.5.15",
     "@types/lodash": "^4.17.7",
     "axios": "^1.7.5",
     "framer-motion": "^11.3.31",
+    "gray-matter": "^4.0.3",
     "lodash": "^4.17.21",
     "next": "^14.2.7",
     "noise": "^0.0.0",
