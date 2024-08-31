@@ -1,4 +1,4 @@
-// app/creative/blog/page.tsx
+// app/creative/blog/BlogPageContentpage.tsx
 "use client"
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -75,7 +75,10 @@ const BlogPage: React.FC = () => {
     h3: ({ children }) => (
       <h3 className="text-xl font-medium mt-4 mb-2">{children}</h3>
     ),
+    
   };
+
+  
 
   return (
     <div className="min-h-screen p-8">
@@ -103,7 +106,7 @@ const BlogPage: React.FC = () => {
               initial={{ y: 50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: 50, opacity: 0 }}
-              className={`bg-amber-50 rounded-lg p-8 overflow-y-auto ${
+              className={`bg-amber-50 rounded-lg p-8 z-50 overflow-y-auto ${
                 isMobile ? 'w-full h-full' : 'w-2/3 max-h-[90vh]'
               }`}
               onClick={(e) => e.stopPropagation()}

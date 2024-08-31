@@ -29,7 +29,7 @@ export interface LinkWithLabel {
   }
 
   export async function getProjects(): Promise<Project[]> {
-    const projectsDirectory = path.join(process.cwd(), 'public', 'data');
+    const projectsDirectory = path.join(process.cwd(), 'public', 'technical', 'data');
     const projectFolders = await fs.readdir(projectsDirectory);
 
     const projects = await Promise.all(projectFolders.map(async (folder) => {
@@ -40,7 +40,7 @@ export interface LinkWithLabel {
         if (!imageFile) {
             throw new Error(`No image file found in project folder: ${folder}`);
         }
-        const imagePath = `/data/${folder}/${imageFile}`;
+        const imagePath = `/technical/data/${folder}/${imageFile}`;
 
         const titleContent = await fs.readFile(path.join(folderPath, 'title.txt'), 'utf-8');
         const descriptionContent = await fs.readFile(path.join(folderPath, 'description.md'), 'utf-8');
@@ -60,7 +60,7 @@ export interface LinkWithLabel {
             const stats = await fs.stat(filePath);
             if (stats.isFile()) {
                 if (/\.(png|jpg|jpeg|webp|svg)$/.test(file)) {
-                    return { type: 'image' as const, src: `/data/${folder}/media/${file}` };
+                    return { type: 'image' as const, src: `/technical/data/${folder}/media/${file}` };
                 } else if (file.endsWith('.txt')) {
                     const videoId = await fs.readFile(filePath, 'utf-8');
                     return { type: 'video' as const, src: videoId.trim() };

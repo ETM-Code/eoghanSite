@@ -1,3 +1,5 @@
+Electronics
+ESP-32
 C++
 JavaScript
 TypeScript

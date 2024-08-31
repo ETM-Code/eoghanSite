@@ -10,6 +10,8 @@ import remarkGfm from 'remark-gfm';
 import { useSwipeable } from 'react-swipeable';
 import Masonry from 'react-masonry-css';
 import { Project, Media, LinkWithLabel } from '../utils/projectUtils';
+import TechBlog from './TechBlog';
+import TechContentToggle from './TechContentToggle';
 
 
 interface LanguageIcon {
@@ -51,6 +53,7 @@ const TechPage: React.FC = () => {
   const [animationPlayed, setAnimationPlayed] = useState(false);
   const [randomProjectIndex, setRandomProjectIndex] = useState<number | null>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [activeContent, setActiveContent] = useState<'projects' | 'blog'>('projects');
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -269,9 +272,11 @@ const TechPage: React.FC = () => {
   
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-8 w-full">
-      <h1 className="text-4xl font-bold mb-8">Technical Projects</h1>
-
+    <div className="min-h-screen bg-gray-900 text-white p-8 w-full pt-20">
+      <h1 className="text-4xl font-bold mb-8">Technical Portfolio</h1>
+      <TechContentToggle activeContent={activeContent} setActiveContent={setActiveContent} />
+      {activeContent === 'projects' && (
+        <>
       {/* Language filter buttons */}
       <div className="mb-8">
         <h2 className="text-2xl mb-4">Filter by Technology:</h2>
@@ -388,6 +393,10 @@ const TechPage: React.FC = () => {
           </motion.div>
         )}
       </AnimatePresence>
+      </>
+      )}
+
+      {activeContent === 'blog' && <TechBlog />}
     </div>
   );
 };
