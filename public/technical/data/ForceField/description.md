@@ -17,6 +17,8 @@ Several open-source mesh-network libraries were considered, but their reliance o
 
 Messages are chunked to avoid the limits of the ESP-Now service and tagged to identify the original transmitter, as well as the relevant message and section of the message.
 
+Our transmission methods were extremely effective, allowing 6,000 datapoints to be transmitted, per-second, at a maximum range of 100m per active peer (the  network allows for the extension of range via device meshing). This is opposed to competitors utilising BLE for ranges of less than 20m.
+
 ## Data Gathering
 
 The sensors collect data from the Adafruit ADXL375 High-G Accelerometer and the LSM6DSOX Gyroscope Sensor. The data rates are adjusted for compatibility before being stored in buffer arrays. These arrays are periodically checked for heavy impacts. If an impact is detected, a message is broadcast.

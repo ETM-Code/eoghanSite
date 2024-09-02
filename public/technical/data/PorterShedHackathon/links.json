@@ -1,0 +1,16 @@
+{
+  "github": "",
+  "youtube": "",
+  "npm": "",
+  "documentation": "",
+  "googleDrive": "",
+
+
+"external": [
+      {
+        "url": "https://hf.co/chat/assistant/666044f98ac68eefff011f7e",
+        "label": "PorterShed Hackathon Chatbot Link"
+      }
+    ]
+
+  }

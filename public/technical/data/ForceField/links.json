@@ -19,10 +19,10 @@
         "label": "Project Presentation"
       }
     ],
-    "External Link": [
+    "external": [
       {
         "url": "https://www.joinpatch.org/",
-        "label": "Project Presentation"
+        "label": "Patch Website"
       }
     ]
   }
