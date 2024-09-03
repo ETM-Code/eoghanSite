@@ -9,22 +9,24 @@ import Typewriter from './cssEffects/typewriter/typewriter';
 import { decodeText } from "./cssEffects/decodeText/decodeTextTS";
 import './cssEffects/noiseGround/noiseGround.css'
 import { noise } from "./cssEffects/noiseGround/noiseGround"
+import { FaYoutube, FaExternalLinkAlt } from 'react-icons/fa';
+import BlogPostCard, { BlogPost } from './creative/components/BlogPostCard';
 
 export default function ClientSideHomePage() {
   const neonImagesRef = useRef<HTMLDivElement>(null);
   const [activeIcon, setActiveIcon] = useState<number | null>(null);
   const [isMobile, setIsMobile] = useState(false);
   const [isClient, setIsClient] = useState(false);
-  const [, setForceUpdate] = useState({});
+  const [recentPosts, setRecentPosts] = useState<BlogPost[]>([]);
 
   const handleResize = useCallback(() => {
-    setIsMobile(window.innerWidth < 768); // Adjust this breakpoint as needed
+    setIsMobile(window.innerWidth < 768);
   }, []);
 
   const handleScroll = useCallback(() => {
     if (neonImagesRef.current && isMobile) {
       const neonImages = Array.from(neonImagesRef.current.children) as HTMLElement[];
-      const headerHeight = 150; // Approximate height of the header
+      const headerHeight = 150;
       const screenCenter = window.innerHeight / 2;
 
       let closestIcon = null;
@@ -45,16 +47,6 @@ export default function ClientSideHomePage() {
     }
   }, [isMobile]);
 
-
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     setForceUpdate({});
-  //   }, 1000);
-  
-  //   return () => clearTimeout(timer);
-  // }, []);
-
-  
   useEffect(() => {
     setIsClient(true);
     decodeText();
@@ -66,7 +58,21 @@ export default function ClientSideHomePage() {
 
     window.addEventListener('resize', debouncedHandleResize);
     window.addEventListener('scroll', debouncedHandleScroll);
-    handleScroll(); // Call once on mount to set initial state
+    handleScroll();
+
+    // Fetch recent blog posts
+    const fetchRecentPosts = async () => {
+      try {
+        const response = await fetch('/api/recentPosts');
+        if (response.ok) {
+          const data = await response.json();
+          setRecentPosts(data);
+        }
+      } catch (error) {
+        console.error('Error fetching recent posts:', error);
+      }
+    };
+    fetchRecentPosts();
 
     return () => {
       window.removeEventListener('resize', debouncedHandleResize);
@@ -75,9 +81,8 @@ export default function ClientSideHomePage() {
   }, [handleResize, handleScroll]);
 
   if (!isClient) {
-    return null; // or a loading spinner
+    return null;
   }
-
 
   return (
     <main className={`flex flex-col min-h-screen w-full ${isMobile ? 'mobile-view' : ''}`}>
@@ -106,30 +111,48 @@ export default function ClientSideHomePage() {
           </div>
         </div>
       </header>
-
-      <div className="flex-grow flex flex-col items-left justify-start p-4 mt-[800px] sm:mt-[250px] md:mt-[200px] lg:mt-[0px] md:justify-center">
+      <div className="flex-grow flex flex-col items-center justify-start p-4 mt-[800px]">
+        <div className="flex flex-wrap justify-center gap-8 mb-8">
+          <Link href="https://www.youtube.com/channel/UCma7zuZag1X1u1m0Qd3deNw" target="_blank" rel="noopener noreferrer" className="flex items-center text-white hover:text-gray-300 transition-colors">
+            <FaYoutube className="mr-2 text-2xl" />
+            <span className="text-lg">ETM_Writes</span>
+          </Link>
+          <Link href="https://www.youtube.com/@EoghanTheDev" target="_blank" rel="noopener noreferrer" className="flex items-center text-white hover:text-gray-300 transition-colors">
+            <FaYoutube className="mr-2 text-2xl" />
+            <span className="text-lg">EoghanTheDev</span>
+          </Link>
+          <Link href="https://etmcollins.com" target="_blank" rel="noopener noreferrer" className="flex items-center text-white hover:text-gray-300 transition-colors">
+            <FaExternalLinkAlt className="mr-2 text-2xl" />
+            <span className="text-lg">Creative Blog</span>
+          </Link>
+        </div>
+      </div>
+      <div className="flex-grow flex flex-col items-left justify-start p-4 mt-[0px] lg:mt-[0px] md:justify-center">
         <div className="text-white mb-10 mt-8 md:mt-0">
           <Typewriter text="Engineer. Programmer. Artist. Inventor." />
         </div>
 
+
+
         <div ref={neonImagesRef} className="neon-image-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 w-full">
-          {['technical', 'creative', 'misc', 'contact'].map((item, index) => (
+          {['technical', 'creative', 'contact'].map((item, index) => (
             <a href={`/${item}`} key={item}> 
-            <div 
-              className={`neon-image-wrapper aspect-square ${isMobile && activeIcon === index ? 'active' : ''}`}
-            >
-              <Image
-                src={`/neoni/${item}.svg`}
-                alt={`${item} icon`}
-                width={300}
-                height={300}
-                layout="responsive"
-                className="neon-image"
-              />
-            </div>
+              <div 
+                className={`neon-image-wrapper aspect-square ${isMobile && activeIcon === index ? 'active' : ''}`}
+              >
+                <Image
+                  src={`/neoni/${item}.svg`}
+                  alt={`${item} icon`}
+                  width={300}
+                  height={300}
+                  layout="responsive"
+                  className="neon-image"
+                />
+              </div>
             </a>
           ))}
         </div>
+
       </div>
     </main>
   );

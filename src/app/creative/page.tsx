@@ -7,6 +7,8 @@ import { motion } from 'framer-motion';
 import { FaYoutube, FaTiktok, FaPodcast, FaArrowRight } from 'react-icons/fa';
 import BlogPostCard, { BlogPost } from './components/BlogPostCard';
 import { useRouter } from 'next/navigation';
+import ExternalLinksSection from './components/ExternalLinksSection';
+
 
 const RECENT_POSTS_COUNT = 3;
 
@@ -45,8 +47,15 @@ const HomePage = () => {
       >
         <h1 className="text-4xl font-bold mb-4">Welcome to My Creative Corner</h1>
         <p className="text-xl">
-          Here you'll find a collection of my creative works, including blog posts, fiction, and art.
+          Here, we delve into the realms of writing, art, and all other creative endeavours!
         </p>
+        <p className="text-xl leading-relaxed">
+          Don't forget to check out my dedicated writing site at 
+          <a href="https://etmcollins.com" className="text-blue-600 hover:underline"> etmcollins.com</a>, 
+          and my creative YouTube channel, 
+          <a href="https://www.youtube.com/channel/UCma7zuZag1X1u1m0Qd3deNw" className="text-blue-600 hover:underline"> ETM_Writes</a>.
+        </p>
+
       </motion.section>
 
       <motion.section
@@ -69,6 +78,8 @@ const HomePage = () => {
           </Link>
         </div>
       </motion.section>
+
+      {/* <ExternalLinksSection /> */}
 
       <motion.section
         initial={{ opacity: 0, y: 20 }}

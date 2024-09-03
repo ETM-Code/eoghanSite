@@ -1,4 +1,4 @@
-// app/creative/blog/BlogPageContentpage.tsx
+// app/creative/blog/BlogPageContent.tsx
 "use client"
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -6,14 +6,19 @@ import Masonry from 'react-masonry-css';
 import ReactMarkdown from 'react-markdown';
 import { FaArrowLeft } from 'react-icons/fa';
 import { Components } from 'react-markdown';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import BlogPostCard, { BlogPost } from '../components/BlogPostCard';
 
-const BlogPage: React.FC = () => {
+interface BlogPageContentProps {
+  onPostOpenChange?: (isOpen: boolean) => void;
+}
+
+const BlogPageContent: React.FC<BlogPageContentProps> = ({ onPostOpenChange }) => {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
   const [isMobile, setIsMobile] = useState(false);
   const searchParams = useSearchParams();
+  const router = useRouter();
 
   useEffect(() => {
     const fetchBlogPosts = async () => {
@@ -30,6 +35,7 @@ const BlogPage: React.FC = () => {
           const post = data.find(p => p.id === postId);
           if (post) {
             setSelectedPost(post);
+            onPostOpenChange?.(true);
           }
         }
       } catch (error) {
@@ -46,14 +52,20 @@ const BlogPage: React.FC = () => {
     handleResize();
 
     return () => window.removeEventListener('resize', handleResize);
-  }, [searchParams]);
+  }, [searchParams, onPostOpenChange]);
 
   const openPost = (post: BlogPost) => {
     setSelectedPost(post);
+    onPostOpenChange?.(true);
+    document.body.style.overflow = 'hidden';
+    router.push(`/creative/blog?postId=${post.id}`);
   };
 
   const closePost = () => {
     setSelectedPost(null);
+    onPostOpenChange?.(false);
+    document.body.style.overflow = 'unset';
+    router.push('/creative/blog');
   };
 
   const customRenderers: Components = {
@@ -75,10 +87,7 @@ const BlogPage: React.FC = () => {
     h3: ({ children }) => (
       <h3 className="text-xl font-medium mt-4 mb-2">{children}</h3>
     ),
-    
   };
-
-  
 
   return (
     <div className="min-h-screen p-8">
@@ -99,15 +108,15 @@ const BlogPage: React.FC = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center p-4 z-50"
+            className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50"
             onClick={closePost}
           >
             <motion.div
               initial={{ y: 50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: 50, opacity: 0 }}
-              className={`bg-amber-50 rounded-lg p-8 z-50 overflow-y-auto ${
-                isMobile ? 'w-full h-full' : 'w-2/3 max-h-[90vh]'
+              className={`bg-amber-50 rounded-lg p-8 overflow-y-auto ${
+                isMobile ? 'w-full h-full' : 'w-2/3 h-full'
               }`}
               onClick={(e) => e.stopPropagation()}
             >
@@ -136,4 +145,4 @@ const BlogPage: React.FC = () => {
   );
 };
 
-export default BlogPage;
+export default BlogPageContent;
