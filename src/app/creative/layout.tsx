@@ -4,17 +4,17 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { FaArrowLeft } from 'react-icons/fa';
-import { usePathname, useSearchParams } from 'next/navigation';
+// import { usePathname, useSearchParams } from 'next/navigation';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const [isPostOpen, setIsPostOpen] = useState(false);
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  // const pathname = usePathname();
+  // const searchParams = useSearchParams();
 
-  useEffect(() => {
-    const postId = searchParams?.get('postId');
-    setIsPostOpen(!!postId && pathname === '/creative/blog');
-  }, [pathname, searchParams]);
+  // useEffect(() => {
+  //   const postId = searchParams?.get('postId');
+  //   setIsPostOpen(!!postId && pathname === '/creative/blog');
+  // }, [pathname, searchParams]);
 
   return (
     <div className="min-h-screen text-gray-800 relative" style={{ backgroundColor: '#F5E6D3' }}>
