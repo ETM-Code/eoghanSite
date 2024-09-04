@@ -5,7 +5,7 @@ export async function GET() {
   console.log("API route hit: /api/projects");
   try {
     const projects = await getProjects();
-    console.log("Projects fetched successfully:", projects);
+    // console.log("Projects fetched successfully:", projects);
     return NextResponse.json(projects);
   } catch (error) {
     console.error('Error in API route:', error);

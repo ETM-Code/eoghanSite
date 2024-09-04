@@ -1,17 +1,28 @@
-// app/creative/blog/page.tsx
-import React, { Suspense } from 'react';
-import dynamic from 'next/dynamic';
+// // app/creative/blog/page.tsx
+// import React, { Suspense } from 'react';
+// import dynamic from 'next/dynamic';
 
-const BlogPageContent = dynamic(() => import('./BlogPageContent'), { ssr: false });
+// const BlogPageContent = dynamic(() => import('./BlogPageContent'), { ssr: false });
 
-const LoadingFallback = () => <div>Loading...</div>;
+// const LoadingFallback = () => <div>Loading...</div>;
 
-const BlogPage: React.FC = () => {
+// const BlogPage: React.FC = () => {
+//   return (
+//     <Suspense fallback={<LoadingFallback />}>
+//       <BlogPageContent />
+//     </Suspense>
+//   );
+// };
+
+// export default BlogPage;
+
+import { Suspense } from 'react';
+import BlogPage from './BlogPageContent';
+
+export default function Page() {
   return (
-    <Suspense fallback={<LoadingFallback />}>
-      <BlogPageContent />
+    <Suspense fallback={<div>Loading...</div>}>
+      <BlogPage />
     </Suspense>
   );
-};
-
-export default BlogPage;
+}
