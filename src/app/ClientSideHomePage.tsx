@@ -111,7 +111,7 @@ export default function ClientSideHomePage() {
           </div>
         </div>
       </header>
-      <div className="flex-grow flex flex-col items-center justify-start p-4 mt-[800px]">
+      <div className="flex-grow flex flex-col items-center justify-start p-4 mt-[800px] lg:mt-[0px]">
         <div className="flex flex-wrap justify-center gap-8 mb-8">
           <Link href="https://www.youtube.com/channel/UCma7zuZag1X1u1m0Qd3deNw" target="_blank" rel="noopener noreferrer" className="flex items-center text-white hover:text-gray-300 transition-colors">
             <FaYoutube className="mr-2 text-2xl" />
@@ -128,7 +128,7 @@ export default function ClientSideHomePage() {
         </div>
       </div>
       <div className="flex-grow flex flex-col items-left justify-start p-4 mt-[0px] lg:mt-[0px] md:justify-center">
-        <div className="text-white mb-10 mt-8 md:mt-0">
+        <div className="text-white mb-10">
           <Typewriter text="Engineer. Programmer. Artist. Inventor." />
         </div>
 
