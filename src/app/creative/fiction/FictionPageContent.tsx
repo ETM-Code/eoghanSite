@@ -7,12 +7,14 @@ import ReactMarkdown from 'react-markdown';
 import { FaArrowLeft } from 'react-icons/fa';
 import { useSearchParams } from 'next/navigation';
 import { FictionPiece } from '../../api/fictionPieces/route';
+import { usePostContext } from '../PostContext';
 
 const FictionPage: React.FC = () => {
   const [fictionPieces, setFictionPieces] = useState<FictionPiece[]>([]);
   const [selectedPiece, setSelectedPiece] = useState<FictionPiece | null>(null);
   const [isMobile, setIsMobile] = useState(false);
   const searchParams = useSearchParams();
+  const { setIsPostOpen } = usePostContext();
 
   useEffect(() => {
     const fetchFictionPieces = async () => {
@@ -54,6 +56,7 @@ const FictionPage: React.FC = () => {
   const closePiece = () => {
     setSelectedPiece(null);
   };
+  
 
   return (
     <div className="min-h-screen p-8">

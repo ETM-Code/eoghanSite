@@ -8,6 +8,7 @@ import { FaArrowLeft } from 'react-icons/fa';
 import { Components } from 'react-markdown';
 import { useSearchParams, useRouter } from 'next/navigation';
 import BlogPostCard, { BlogPost } from '../components/BlogPostCard';
+import { usePostContext } from '../PostContext';
 
 interface BlogPageContentProps {
   onPostOpenChange?: (isOpen: boolean) => void;
@@ -19,6 +20,7 @@ const BlogPageContent: React.FC<BlogPageContentProps> = ({ onPostOpenChange }) =
   const [isMobile, setIsMobile] = useState(false);
   const searchParams = useSearchParams();
   const router = useRouter();
+  const { setIsPostOpen } = usePostContext();
 
   useEffect(() => {
     const fetchBlogPosts = async () => {
@@ -67,6 +69,20 @@ const BlogPageContent: React.FC<BlogPageContentProps> = ({ onPostOpenChange }) =
     document.body.style.overflow = 'unset';
     router.push('/creative/blog');
   };
+
+  useEffect(() => {
+    const postId = searchParams?.get('postId');
+    if (postId) {
+      const post = blogPosts.find(p => p.id === postId);
+      if (post) {
+        setSelectedPost(post);
+        setIsPostOpen(true);
+      }
+    } else {
+      setIsPostOpen(false);
+    }
+  }, [searchParams, blogPosts, setIsPostOpen]);
+
 
   const customRenderers: Components = {
     img: ({ src, alt, ...props }) => {
