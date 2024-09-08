@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaGithub, FaYoutube, FaExternalLinkAlt, FaChevronLeft, FaChevronRight, FaNpm, FaBook, FaGoogleDrive } from 'react-icons/fa';
+import { FaGithub, FaYoutube, FaExternalLinkAlt, FaChevronLeft, FaChevronRight, FaNpm, FaBook, FaGoogleDrive, FaArrowLeft } from 'react-icons/fa';
 import { SiJavascript, SiTypescript, SiPython, SiCplusplus, SiRuby, SiPhp, SiGo, SiRust, SiSwift, SiKotlin, SiCsharp, SiScala, SiDart, SiLua, SiReact, SiNextdotjs, SiC, SiCss3, SiArduino, SiMysql, SiElectron } from 'react-icons/si';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
@@ -54,6 +54,20 @@ const TechPage: React.FC = () => {
   const [randomProjectIndex, setRandomProjectIndex] = useState<number | null>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [activeContent, setActiveContent] = useState<'projects' | 'blog'>('projects');
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -273,6 +287,12 @@ const TechPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-8 w-full pt-20">
+      {(!isMobile || !selectedProject) && (
+      <Link href="/" className="fixed top-4 left-4 z-50 flex items-center space-x-2 bg-gray-800 px-3 py-2 rounded-full shadow-md">
+        <FaArrowLeft className="text-xl text-white" />
+        <span className="text-white font-medium">Back to Main</span>
+      </Link>
+      )}
       <h1 className="text-4xl font-bold mb-8">Technical Portfolio</h1>
       <TechContentToggle activeContent={activeContent} setActiveContent={setActiveContent} />
       {activeContent === 'projects' && (
@@ -353,6 +373,15 @@ const TechPage: React.FC = () => {
               className="bg-gray-800 rounded-lg max-w-4xl w-full h-[90vh] flex flex-col md:flex-row overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
+                {isMobile && (
+                <div
+                  onClick={handleModalClose}
+                  className="absolute top-4 left-4 z-50 text-white p-2"
+                  aria-label="Close"
+                >
+                  <FaArrowLeft size={24} />
+                </div>
+              )}
               <div className="w-full md:w-1/2 h-[50vh] md:h-full relative" {...handlers}>
                 {selectedProject.media.length > 0 && (
                   <div className="absolute inset-0">
