@@ -288,10 +288,19 @@ const TechPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-900 text-white p-8 w-full pt-20">
       {(!isMobile || !selectedProject) && (
-      <Link href="/" className="fixed top-4 left-4 z-50 flex items-center space-x-2 bg-gray-800 px-3 py-2 rounded-full shadow-md">
-        <FaArrowLeft className="text-xl text-white" />
-        <span className="text-white font-medium">Back to Main</span>
-      </Link>
+        <Link href="/" className="fixed top-4 left-4 z-50 flex items-center space-x-2 bg-gray-800 px-3 py-2 rounded-full shadow-md">
+          <FaArrowLeft className="text-xl text-white" />
+          <span className="text-white font-medium">Back to Main</span>
+        </Link>
+      )}
+      {isMobile && selectedProject && (
+        <button
+          onClick={() => setSelectedProject(null)}
+          className="fixed top-4 right-4 z-50 flex items-center space-x-2 bg-gray-800 px-3 py-2 rounded-full shadow-md"
+        >
+          <FaArrowLeft className="text-xl text-white" />
+          <span className="text-white font-medium">Back</span>
+        </button>
       )}
       <h1 className="text-4xl font-bold mb-8">Technical Portfolio</h1>
       <TechContentToggle activeContent={activeContent} setActiveContent={setActiveContent} />
@@ -305,124 +314,115 @@ const TechPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Project masonry grid */}
-      <Masonry
-        breakpointCols={breakpointColumnsObj}
-        className="flex w-auto -ml-4"
-        columnClassName="pl-4 bg-clip-padding"
-      >
-        {filteredProjects.map((project, index) => (
-          <motion.div
-            key={project.id}
-            layoutId={`project-${project.id}`}
-            id={`project-${project.id}`}
-            onClick={() => {
-              setSelectedProject(project);
-              setCurrentMediaIndex(0);
-              setAnimationPlayed(true);
-            }}
-            className="cursor-pointer bg-gray-800 rounded-lg overflow-hidden mb-4 relative group"
+          {/* Project masonry grid */}
+          <Masonry
+            breakpointCols={breakpointColumnsObj}
+            className="flex w-auto -ml-4"
+            columnClassName="pl-4 bg-clip-padding"
           >
-            <div className="relative">
-              <Image
-                src={project.image}
-                alt={project.title}
-                width={400}
-                height={300}
-                layout="responsive"
-                objectFit="cover"
-                className="rounded-t-lg transition-transform duration-300 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                <span className="text-white text-lg font-bold">View Project</span>
-              </div>
-            </div>
-            <div className="p-4">
-              <h2 className="text-xl font-semibold mb-2">{project.title}</h2>
-              <p className="text-gray-400 text-sm mb-2">{project.languages.join(', ')}</p>
-              <p className="text-gray-300 text-sm line-clamp-3">{stripMarkdown(project.description)}</p>
-            </div>
-            {randomProjectIndex === index && (
-              <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-70 animate-pulse">
-                <span className="text-white text-2xl font-bold">Click Me!</span>
-              </div>
-            )}
-          </motion.div>
-        ))}
-      </Masonry>
-
-      {/* Project modal */}
-      <AnimatePresence mode="wait">
-        {selectedProject && (
-          <motion.div
-            key="modal-background"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 bg-black bg-opacity-50 z-40 flex items-center justify-center p-4"
-            onClick={handleModalClose}
-          >
-            <motion.div
-              key="modal-content"
-              layoutId={`project-${selectedProject.id}`}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              transition={{ duration: 0.3 }}
-              className="bg-gray-800 rounded-lg max-w-4xl w-full h-[90vh] flex flex-col md:flex-row overflow-hidden"
-              onClick={(e) => e.stopPropagation()}
-            >
-                {isMobile && (
-                <div
-                  onClick={handleModalClose}
-                  className="absolute top-4 left-4 z-50 text-white p-2"
-                  aria-label="Close"
-                >
-                  <FaArrowLeft size={24} />
+            {filteredProjects.map((project, index) => (
+              <motion.div
+                key={project.id}
+                layoutId={`project-${project.id}`}
+                id={`project-${project.id}`}
+                onClick={() => {
+                  setSelectedProject(project);
+                  setCurrentMediaIndex(0);
+                  setAnimationPlayed(true);
+                }}
+                className="cursor-pointer bg-gray-800 rounded-lg overflow-hidden mb-4 relative group"
+              >
+                <div className="relative">
+                  <Image
+                    src={project.image}
+                    alt={project.title}
+                    width={400}
+                    height={300}
+                    layout="responsive"
+                    objectFit="cover"
+                    className="rounded-t-lg transition-transform duration-300 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <span className="text-white text-lg font-bold">View Project</span>
+                  </div>
                 </div>
-              )}
-              <div className="w-full md:w-1/2 h-[50vh] md:h-full relative" {...handlers}>
-                {selectedProject.media.length > 0 && (
-                  <div className="absolute inset-0">
-                    {renderMedia(selectedProject.media[currentMediaIndex])}
+                <div className="p-4">
+                  <h2 className="text-xl font-semibold mb-2">{project.title}</h2>
+                  <p className="text-gray-400 text-sm mb-2">{project.languages.join(', ')}</p>
+                  <p className="text-gray-300 text-sm line-clamp-3">{stripMarkdown(project.description)}</p>
+                </div>
+                {randomProjectIndex === index && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-70 animate-pulse">
+                    <span className="text-white text-2xl font-bold">Click Me!</span>
                   </div>
                 )}
-                {selectedProject.media.length > 1 && (
-                  <>
-                    <button
-                        onClick={handlePrevMedia}
-                        className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 p-2 rounded-full hover:bg-opacity-75 transition-all z-10"
-                        >
-                        <FaChevronLeft className="text-white" />
-                    </button>
-                    <button
-                        onClick={handleNextMedia}
-                        className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 p-2 rounded-full hover:bg-opacity-75 transition-all z-10"
-                        >
-                        <FaChevronRight className="text-white" />
-                    </button>
-                  </>
-                )}
-              </div>
-              <div className="w-full md:w-1/2 h-[40vh] md:h-full overflow-y-auto p-8">
-                <h2 className="text-3xl font-bold mb-4">{selectedProject.title}</h2>
-                <p className="text-gray-400 text-sm mb-4">{selectedProject.languages.join(', ')}</p>
-                <ReactMarkdown 
-                  className="prose prose-invert max-w-none"
-                  components={MarkdownComponents}
-                  remarkPlugins={[remarkGfm]}
-                  rehypePlugins={[rehypeRaw]}
+              </motion.div>
+            ))}
+          </Masonry>
+
+          {/* Project modal */}
+          <AnimatePresence mode="wait">
+            {selectedProject && (
+              <motion.div
+                key="modal-background"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="fixed inset-0 bg-black bg-opacity-50 z-40 flex items-center justify-center p-4"
+                onClick={handleModalClose}
+              >
+                <motion.div
+                  key="modal-content"
+                  layoutId={`project-${selectedProject.id}`}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  transition={{ duration: 0.3 }}
+                  className="bg-gray-800 rounded-lg max-w-4xl w-full h-[90vh] md:h-auto flex flex-col md:flex-row overflow-hidden"
+                  onClick={(e) => e.stopPropagation()}
                 >
-                  {selectedProject.description}
-                </ReactMarkdown>
-                {renderLinks(selectedProject.links)}
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-      </>
+                  <div className="w-full md:w-1/2 h-[50vh] md:h-full relative overflow-y-auto" {...handlers}>
+                    {selectedProject.media.length > 0 && (
+                      <div className="absolute inset-0">
+                        {renderMedia(selectedProject.media[currentMediaIndex])}
+                      </div>
+                    )}
+                    {selectedProject.media.length > 1 && (
+                      <>
+                        <button
+                          onClick={handlePrevMedia}
+                          className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 p-2 rounded-full hover:bg-opacity-75 transition-all z-10"
+                        >
+                          <FaChevronLeft className="text-white" />
+                        </button>
+                        <button
+                          onClick={handleNextMedia}
+                          className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 p-2 rounded-full hover:bg-opacity-75 transition-all z-10"
+                        >
+                          <FaChevronRight className="text-white" />
+                        </button>
+                      </>
+                    )}
+                  </div>
+                  <div className="w-full md:w-1/2 h-[40vh] md:h-full overflow-y-auto p-8">
+                    <h2 className="text-3xl font-bold mb-4">{selectedProject.title}</h2>
+                    <p className="text-gray-400 text-sm mb-4">{selectedProject.languages.join(', ')}</p>
+                    <ReactMarkdown 
+                      className="prose prose-invert max-w-none"
+                      components={MarkdownComponents}
+                      remarkPlugins={[remarkGfm]}
+                      rehypePlugins={[rehypeRaw]}
+                    >
+                      {selectedProject.description}
+                    </ReactMarkdown>
+                    {renderLinks(selectedProject.links)}
+                  </div>
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </>
       )}
 
       {activeContent === 'blog' && <TechBlog />}
