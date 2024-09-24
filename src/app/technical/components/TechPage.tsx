@@ -306,13 +306,13 @@ const TechPage: React.FC = () => {
       <TechContentToggle activeContent={activeContent} setActiveContent={setActiveContent} />
       {activeContent === 'projects' && (
         <>
-      {/* Language filter buttons */}
-      <div className="mb-8">
-        <h2 className="text-2xl mb-4">Filter by Technology:</h2>
-        <div className="flex flex-wrap gap-2">
-          {allLanguages.map(renderLanguageButton)}
-        </div>
-      </div>
+          {/* Language filter buttons */}
+          <div className="mb-8">
+            <h2 className="text-2xl mb-4">Filter by Technology:</h2>
+            <div className="flex flex-wrap gap-2">
+              {allLanguages.map(renderLanguageButton)}
+            </div>
+          </div>
 
           {/* Project masonry grid */}
           <Masonry
