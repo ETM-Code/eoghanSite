@@ -12,6 +12,7 @@ import Masonry from 'react-masonry-css';
 import { Project, Media, LinkWithLabel } from '../utils/projectUtils';
 import TechBlog from './TechBlog';
 import TechContentToggle from './TechContentToggle';
+import { useRouter } from 'next/router';
 
 
 interface LanguageIcon {
@@ -55,6 +56,7 @@ const TechPage: React.FC = () => {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [activeContent, setActiveContent] = useState<'projects' | 'blog'>('projects');
   const [isMobile, setIsMobile] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const handleResize = () => {
@@ -89,7 +91,28 @@ const TechPage: React.FC = () => {
     fetchProjects();
   }, []);
 
-  
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash;
+      if (hash) {
+        const projectId = hash.replace('#', '');
+        const project = projects.find(p => p.id === projectId);
+        if (project) {
+          setSelectedProject(project);
+          setCurrentMediaIndex(0);
+          setAnimationPlayed(true);
+        }
+      }
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    
+    handleHashChange();
+
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange);
+    };
+  }, [projects]);
 
   useEffect(() => {
     if (selectedProject) {
@@ -279,7 +302,18 @@ const TechPage: React.FC = () => {
 
   const handleModalClose = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
-      setSelectedProject(null);
+      handleProjectSelect(null);
+    }
+  };
+
+  const handleProjectSelect = (project: Project | null) => {
+    setSelectedProject(project);
+    if (project) {
+      window.location.hash = project.id;
+      setCurrentMediaIndex(0);
+      setAnimationPlayed(true);
+    } else {
+      history.pushState("", document.title, window.location.pathname + window.location.search);
     }
   };
 
@@ -295,7 +329,7 @@ const TechPage: React.FC = () => {
       )}
       {isMobile && selectedProject && (
         <button
-          onClick={() => setSelectedProject(null)}
+          onClick={() => handleProjectSelect(null)}
           className="fixed top-4 right-4 z-50 flex items-center space-x-2 bg-gray-800 px-3 py-2 rounded-full shadow-md"
         >
           <FaArrowLeft className="text-xl text-white" />
@@ -325,11 +359,7 @@ const TechPage: React.FC = () => {
                 key={project.id}
                 layoutId={`project-${project.id}`}
                 id={`project-${project.id}`}
-                onClick={() => {
-                  setSelectedProject(project);
-                  setCurrentMediaIndex(0);
-                  setAnimationPlayed(true);
-                }}
+                onClick={() => handleProjectSelect(project)}
                 className="cursor-pointer bg-gray-800 rounded-lg overflow-hidden mb-4 relative group"
               >
                 <div className="relative">
