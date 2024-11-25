@@ -311,13 +311,19 @@ const TechPage: React.FC = () => {
     if (typeof window === 'undefined') return;
 
     if (project) {
-      window.location.hash = project.id;
+      window.history.replaceState(
+        null, 
+        '', 
+        `${window.location.pathname}${window.location.search}#${project.id}`
+      );
       setCurrentMediaIndex(0);
       setAnimationPlayed(true);
     } else {
-      if (window.history && window.history.pushState) {
-        window.history.pushState("", document.title, window.location.pathname + window.location.search);
-      }
+      window.history.replaceState(
+        null,
+        '',
+        window.location.pathname + window.location.search
+      );
     }
   };
 
@@ -403,7 +409,7 @@ const TechPage: React.FC = () => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                className="fixed inset-0 bg-black bg-opacity-50 z-40 flex items-center justify-center p-4"
+                className="fixed inset-0 bg-black bg-opacity-50 z-40 flex items-center justify-center p-4 overflow-y-auto"
                 onClick={handleModalClose}
               >
                 <motion.div
@@ -413,10 +419,11 @@ const TechPage: React.FC = () => {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.8 }}
                   transition={{ duration: 0.3 }}
-                  className="bg-gray-800 rounded-lg max-w-4xl w-full h-[90vh] md:h-auto flex flex-col md:flex-row overflow-hidden"
+                  className="bg-gray-800 rounded-lg w-full max-w-4xl max-h-[90vh] flex flex-col md:flex-row relative"
                   onClick={(e) => e.stopPropagation()}
                 >
-                  <div className="w-full md:w-1/2 h-[50vh] md:h-full relative overflow-y-auto" {...handlers}>
+                  {/* Media Section */}
+                  <div className="w-full md:w-1/2 h-[40vh] md:h-[90vh] relative" {...handlers}>
                     {selectedProject.media.length > 0 && (
                       <div className="absolute inset-0">
                         {renderMedia(selectedProject.media[currentMediaIndex])}
@@ -439,7 +446,9 @@ const TechPage: React.FC = () => {
                       </>
                     )}
                   </div>
-                  <div className="w-full md:w-1/2 h-[40vh] md:h-full overflow-y-auto p-8">
+
+                  {/* Content Section */}
+                  <div className="w-full md:w-1/2 h-[50vh] md:h-[90vh] overflow-y-auto p-8">
                     <h2 className="text-3xl font-bold mb-4">{selectedProject.title}</h2>
                     <p className="text-gray-400 text-sm mb-4">{selectedProject.languages.join(', ')}</p>
                     <ReactMarkdown 
