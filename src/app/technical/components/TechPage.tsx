@@ -12,7 +12,6 @@ import Masonry from 'react-masonry-css';
 import { Project, Media, LinkWithLabel } from '../utils/projectUtils';
 import TechBlog from './TechBlog';
 import TechContentToggle from './TechContentToggle';
-import { useRouter } from 'next/router';
 
 
 interface LanguageIcon {
@@ -56,7 +55,6 @@ const TechPage: React.FC = () => {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [activeContent, setActiveContent] = useState<'projects' | 'blog'>('projects');
   const [isMobile, setIsMobile] = useState(false);
-  const router = useRouter();
 
   useEffect(() => {
     const handleResize = () => {
@@ -92,6 +90,8 @@ const TechPage: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+
     const handleHashChange = () => {
       const hash = window.location.hash;
       if (hash) {
@@ -308,12 +308,16 @@ const TechPage: React.FC = () => {
 
   const handleProjectSelect = (project: Project | null) => {
     setSelectedProject(project);
+    if (typeof window === 'undefined') return;
+
     if (project) {
       window.location.hash = project.id;
       setCurrentMediaIndex(0);
       setAnimationPlayed(true);
     } else {
-      history.pushState("", document.title, window.location.pathname + window.location.search);
+      if (window.history && window.history.pushState) {
+        window.history.pushState("", document.title, window.location.pathname + window.location.search);
+      }
     }
   };
 
