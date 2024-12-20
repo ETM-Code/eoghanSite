@@ -9,7 +9,7 @@ import Typewriter from './cssEffects/typewriter/typewriter';
 import { decodeText } from "./cssEffects/decodeText/decodeTextTS";
 import './cssEffects/noiseGround/noiseGround.css'
 import { noise } from "./cssEffects/noiseGround/noiseGround"
-import { FaYoutube, FaExternalLinkAlt } from 'react-icons/fa';
+import { FaYoutube, FaExternalLinkAlt, FaLinkedin } from 'react-icons/fa';
 import BlogPostCard, { BlogPost } from './creative/components/BlogPostCard';
 
 export default function ClientSideHomePage() {
@@ -113,6 +113,10 @@ export default function ClientSideHomePage() {
       </header>
       <div className="flex-grow flex flex-col items-center justify-start p-4 mt-[800px] lg:mt-[0px]">
         <div className="flex flex-wrap justify-center gap-8 mb-8">
+        <Link href="https://www.linkedin.com/in/eoghan-timothy-collins" target="_blank" rel="noopener noreferrer" className="flex items-center text-white hover:text-gray-300 transition-colors">
+            <FaLinkedin className="mr-2 text-2xl" />
+            <span className="text-lg">LinkedIn</span>
+          </Link>
           <Link href="https://www.youtube.com/channel/UCma7zuZag1X1u1m0Qd3deNw" target="_blank" rel="noopener noreferrer" className="flex items-center text-white hover:text-gray-300 transition-colors">
             <FaYoutube className="mr-2 text-2xl" />
             <span className="text-lg">ETM_Writes</span>
@@ -135,8 +139,13 @@ export default function ClientSideHomePage() {
 
 
         <div ref={neonImagesRef} className="neon-image-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 w-full">
-          {['technical', 'creative', 'contact'].map((item, index) => (
-            <a href={`/${item}`} key={item}> 
+          {['technical', 'creative', 'cv', 'contact'].map((item, index) => (
+            <a 
+              href={item === 'cv' ? '/cv.pdf' : `/${item}`} 
+              key={item}
+              target={item === 'cv' ? '_blank' : '_self'}
+              rel={item === 'cv' ? 'noopener noreferrer' : ''}
+            > 
               <div 
                 className={`neon-image-wrapper aspect-square ${isMobile && activeIcon === index ? 'active' : ''}`}
               >
