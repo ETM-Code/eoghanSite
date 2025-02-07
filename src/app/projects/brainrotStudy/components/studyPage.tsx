@@ -39,11 +39,13 @@ const StudyPage: React.FC = () => {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [backgroundVideos, setBackgroundVideos] = useState<BackgroundVideo[]>([]);
   const [isMuted, setIsMuted] = useState(true);
+  const [usedVideos, setUsedVideos] = useState<Set<string>>(new Set());
   const containerRef = useRef<HTMLDivElement>(null);
   const videosContainerRef = useRef<HTMLDivElement>(null);
   const [mainContainerSize, setMainContainerSize] = useState({ width: 800, height: 450 });
   const [mainContainerPosition, setMainContainerPosition] = useState({ x: 0, y: 0 });
   const mainContainerRef = useRef<HTMLDivElement>(null);
+  const iframeRefs = useRef<{ [key: string]: HTMLIFrameElement }>({});
 
   const handleContentUpload = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -57,6 +59,15 @@ const StudyPage: React.FC = () => {
   }, []);
 
   const toggleMute = useCallback(() => {
+    // Send mute/unmute command to all iframes using YouTube Player API
+    Object.values(iframeRefs.current).forEach(iframe => {
+      if (iframe?.contentWindow) {
+        iframe.contentWindow.postMessage(JSON.stringify({
+          event: 'command',
+          func: isMuted ? 'unMute' : 'mute'
+        }), '*');
+      }
+    });
     setIsMuted(!isMuted);
   }, [isMuted]);
 
@@ -190,6 +201,7 @@ const StudyPage: React.FC = () => {
         await document.exitFullscreen();
         setIsFullscreen(false);
         setBackgroundVideos([]);
+        setUsedVideos(new Set());
       }
     }
   }, [isFullscreen, fillAvailableSpace]);
@@ -241,9 +253,20 @@ const StudyPage: React.FC = () => {
 
   const getRandomVideo = useCallback(async () => {
     const availableVideos = Object.values(sources).flat();
-    const randomUrl = availableVideos[Math.floor(Math.random() * availableVideos.length)];
+    let unusedVideos = availableVideos.filter(url => !usedVideos.has(url));
+    
+    // If all videos have been used, reset the used videos tracking
+    if (unusedVideos.length === 0) {
+      setUsedVideos(new Set());
+      unusedVideos = availableVideos;
+    }
+    
+    const randomUrl = unusedVideos[Math.floor(Math.random() * unusedVideos.length)];
     const metadata = await checkVideoMetadata(randomUrl);
     const size = getRandomSize();
+    
+    // Add the selected video to used videos
+    setUsedVideos(prev => new Set([...Array.from(prev), randomUrl]));
     
     return {
       url: randomUrl,
@@ -252,7 +275,7 @@ const StudyPage: React.FC = () => {
       aspectRatio: metadata.aspectRatio,
       size
     };
-  }, []);
+  }, [usedVideos]);
 
   const handleVideoEnded = useCallback(async (index: number) => {
     const newVideo = await getRandomVideo();
@@ -371,13 +394,24 @@ const StudyPage: React.FC = () => {
                   style={style}
                 >
                   <iframe
-                    src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=${isMuted ? 1 : 0}&controls=0&enablejsapi=1&playsinline=1&loop=0`}
+                    ref={el => {
+                      if (el) {
+                        iframeRefs.current[`${videoId}-${index}`] = el;
+                      }
+                    }}
+                    src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&enablejsapi=1&playsinline=1&loop=0&origin=${window.location.origin}`}
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                     onLoad={(e) => {
                       const iframe = e.target as HTMLIFrameElement;
                       // Add event listener for video end using YouTube Player API
                       if (iframe.contentWindow) {
+                        // Initialize with correct mute state
+                        iframe.contentWindow.postMessage(JSON.stringify({
+                          event: 'command',
+                          func: isMuted ? 'mute' : 'unMute'
+                        }), '*');
+
                         window.addEventListener('message', async (event) => {
                           if (event.source === iframe.contentWindow) {
                             try {
