@@ -1,0 +1,81 @@
+.letterContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    z-index: 1000;
+}
+
+.banner {
+    font-size: 2rem;
+    color: #2c3e50;
+    margin-bottom: 2rem;
+    text-align: center;
+    opacity: 0;
+    animation: fadeIn 0.5s ease-out 0.5s forwards;
+    transform: translateY(20px);
+}
+
+.letter {
+    font-size: 25vw;
+    font-weight: bold;
+    color: #000000;
+    transition: color 0.3s ease;
+    opacity: 0;
+    animation: popIn 0.5s ease-out 1s forwards;
+    transform: scale(0.5);
+}
+
+.flash {
+    color: #4a90e2;
+}
+
+.slideIn {
+    animation: slideIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes popIn {
+    from {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes flash {
+    0%, 100% {
+        color: #000000;
+    }
+    50% {
+        color: #4a90e2;
+    }
+} 

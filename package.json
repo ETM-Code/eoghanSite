@@ -29,7 +29,11 @@
     "remark-gfm": "^4.0.0",
     "simplex": "^0.2.0",
     "simplex-noise": "^4.0.3",
-    "styled-components": "^6.1.12"
+    "styled-components": "^6.1.12",
+    "@chakra-ui/react": "^2.8.2",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "next-auth": "^4.24.5"
   },
   "devDependencies": {
     "@types/node": "^20",
