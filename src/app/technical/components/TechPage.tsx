@@ -28,7 +28,7 @@ interface LanguageIcon {
     Ruby: { icon: SiRuby, color: '#CC342D' },
     PHP: { icon: SiPhp, color: '#777BB4' },
     Go: { icon: SiGo, color: '#00ADD8' },
-    Rust: { icon: SiRust, color: '#000000' },
+    Rust: { icon: SiRust, color: '#B7410E' },
     Swift: { icon: SiSwift, color: '#FA7343' },
     Kotlin: { icon: SiKotlin, color: '#7F52FF' },
     Scala: { icon: SiScala, color: '#DC322F' },
