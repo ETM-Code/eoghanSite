@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chakra-ui/react": "^2.8.2",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "@tailwindcss/typography": "^0.5.15",
     "@types/lodash": "^4.17.7",
     "axios": "^1.7.5",
@@ -16,6 +19,7 @@
     "gray-matter": "^4.0.3",
     "lodash": "^4.17.21",
     "next": "^14.2.10",
+    "next-auth": "^4.24.5",
     "noise": "^0.0.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -29,17 +33,14 @@
     "remark-gfm": "^4.0.0",
     "simplex": "^0.2.0",
     "simplex-noise": "^4.0.3",
-    "styled-components": "^6.1.12",
-    "@chakra-ui/react": "^2.8.2",
-    "@emotion/react": "^11.11.1",
-    "@emotion/styled": "^11.11.0",
-    "next-auth": "^4.24.5"
+    "styled-components": "^6.1.12"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@types/react-resizable": "^3.0.8",
+    "electron": "^35.1.4",
     "eslint": "^8",
     "eslint-config-next": "14.2.6",
     "postcss": "^8",
