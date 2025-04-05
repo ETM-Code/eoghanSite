@@ -80,5 +80,8 @@ export interface LinkWithLabel {
         };
     }));
 
+    // Sort projects by ID
+    projects.sort((a, b) => a.id.localeCompare(b.id));
+
     return projects;
 }

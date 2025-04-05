@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaGithub, FaYoutube, FaExternalLinkAlt, FaChevronLeft, FaChevronRight, FaNpm, FaBook, FaGoogleDrive, FaArrowLeft } from 'react-icons/fa';
-import { SiJavascript, SiTypescript, SiPython, SiCplusplus, SiRuby, SiPhp, SiGo, SiRust, SiSwift, SiKotlin, SiCsharp, SiScala, SiDart, SiLua, SiReact, SiNextdotjs, SiC, SiCss3, SiArduino, SiMysql, SiElectron } from 'react-icons/si';
+import { SiJavascript, SiTypescript, SiPython, SiCplusplus, SiRuby, SiPhp, SiGo, SiRust, SiSwift, SiKotlin, SiScala, SiDart, SiLua, SiReact, SiNextdotjs, SiC, SiCss3, SiArduino, SiMysql, SiElectron } from 'react-icons/si';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
@@ -31,7 +31,6 @@ interface LanguageIcon {
     Rust: { icon: SiRust, color: '#000000' },
     Swift: { icon: SiSwift, color: '#FA7343' },
     Kotlin: { icon: SiKotlin, color: '#7F52FF' },
-    'C#': { icon: SiCsharp, color: '#239120' },
     Scala: { icon: SiScala, color: '#DC322F' },
     Dart: { icon: SiDart, color: '#0175C2' },
     Lua: { icon: SiLua, color: '#2C2D72' },
