@@ -1,0 +1,50 @@
+{
+  "intro": {
+    "headline": "Building meaningful systems",
+    "copy": "A peek into the experiments and products I am shaping right now—where research, craft, and a bias for action meet." 
+  },
+  "projects": [
+    {
+      "id": "studysmith",
+      "title": "StudySmith",
+      "description": "An AI companion that scaffolds learning with deliberate practice, reflection, and spaced mastery.",
+      "image": "/projects/images/studysmith.png",
+      "href": "https://studysmith.app/"
+    },
+    {
+      "id": "tarski",
+      "title": "Analog AI Chip",
+      "description": "AI processor and simulator that uses asynchronous analog computing to run AI models orders of magnitude faster and more energy efficient than traditional digital computers.",
+      "image": "/projects/images/tarski.png",
+      "href": "/tarski"
+    },
+    {
+      "id": "scholar-matcher",
+      "title": "Web Summit Scholar Matcher",
+      "description": "A mini social network for Web Summit scholars to show off their projects and connect with other scholars.",
+      "image": "/projects/images/scholar-matcher.png",
+      "href": "/scholar-matcher"
+    },
+    {
+      "id": "grid-simulator",
+      "title": "GridAI",
+      "description": "Custom machine learning to optimise energy policy and grid development.",
+      "image": "/projects/images/gridai.png",
+      "href": "https://github.com/ETM-Code/eirgrid"
+    },
+    {
+      "id": "forceField",
+      "title": "ForceField",
+      "description": "Impact-detecting sensor system for hurling helmets with custom mesh networking, enabling real-time concussion risk assessment across 100m+ range.",
+      "image": "/projects/images/forceField.png",
+      "href": "/forceField"
+    },
+    {
+      "id": "medDB",
+      "title": "Multipurpose MEDICAL Database",
+      "description": "A database for medical practices to manage their patients, appointments, procedures, processes and more. Currently in-use at a medical practice.",
+      "image": "/projects/images/medDB.png",
+      "href": "/medDB"
+    }
+  ]
+}
