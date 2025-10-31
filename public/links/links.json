@@ -1,0 +1,70 @@
+{
+  "bio": {
+    "name": "Eoghan Collins",
+    "tagline": "Engineer, author founder.",
+    "description": "I build tools that turn chaos into clarity, from AI study coaches to grid simulators. Always chasing the point where technology feels effortless.",
+    "location": "Galway, Ireland",
+    "avatar": "images/avatar-cropped.jpg"
+  },
+  "linkOrder": [
+    "whatsapp",
+    "linkedin",
+    "x",
+    "studysmith",
+    "calendly",
+    "email",
+    "drive"
+  ],
+  "links": [
+    {
+      "id": "whatsapp",
+      "label": "WhatsApp",
+      "href": "https://wa.me/0000000000",
+      "description": "Message me instantly to start a conversation.",
+      "icon": "/links/icons/whatsapp.png"
+    },
+    {
+      "id": "linkedin",
+      "label": "LinkedIn",
+      "href": "https://www.linkedin.com/in/your-profile",
+      "description": "Connect professionally and explore my experience.",
+      "icon": "/links/icons/linkedin.svg",
+      "iconTransform": "translate(-3%, -6%)"
+    },
+    {
+      "id": "x",
+      "label": "X (Twitter)",
+      "href": "https://x.com/your-handle",
+      "description": "Follow along with quick thoughts and updates.",
+      "icon": "/links/icons/x.svg"
+    },
+    {
+      "id": "studysmith",
+      "label": "StudySmith",
+      "href": "https://studysmith.io/your-space",
+      "description": "See what we are building to reimagine learning.",
+      "icon": "/links/icons/studysmith-white-bg.png"
+    },
+    {
+      "id": "calendly",
+      "label": "Calendly",
+      "href": "https://calendly.com/your-schedule",
+      "description": "Pick a time for a chat that suits us both.",
+      "icon": "/links/icons/calendly.svg"
+    },
+    {
+      "id": "email",
+      "label": "Email",
+      "href": "mailto:hello@example.com",
+      "description": "Drop me a considered note and I will reply soon.",
+      "icon": "/links/icons/email.svg"
+    },
+    {
+      "id": "drive",
+      "label": "Google Drive",
+      "href": "https://drive.google.com/your-folder",
+      "description": "Download shared resources and project files.",
+      "icon": "/links/icons/google-drive.svg"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+<svg width="500" height="500" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+  <!-- White background -->
+  <rect width="500" height="500" fill="#ffffff"/>
+  
+  <!-- Embed the original logo -->
+  <image x="0" y="0" width="500" height="500" href="logo.png"/>
+</svg>
