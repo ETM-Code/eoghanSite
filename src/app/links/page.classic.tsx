@@ -57,7 +57,7 @@ async function getLinksContent(): Promise<LinksContent> {
   return JSON.parse(file) as LinksContent;
 }
 
-export default async function LinksPage() {
+export async function ClassicLinksPage() {
   const { bio, links, linkOrder } = await getLinksContent();
 
   const avatarSrc = normalizeAssetPath(bio.avatar);
@@ -86,56 +86,15 @@ export default async function LinksPage() {
   })();
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-[#020617] via-[#050b1e] to-[#0f1f3a] text-slate-100">
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div
-          className="absolute inset-0 opacity-85"
-          style={{
-            backgroundImage: [
-              'radial-gradient(ellipse at 18% 12%, rgba(76, 106, 255, 0.35) 0, transparent 48%)',
-              'radial-gradient(circle at 82% 16%, rgba(56, 189, 248, 0.32) 0, transparent 50%)',
-              'radial-gradient(circle at 22% 84%, rgba(16, 185, 129, 0.26) 0, transparent 45%)',
-              'radial-gradient(circle at 74% 78%, rgba(236, 72, 153, 0.22) 0, transparent 55%)',
-            ].join(', '),
-          }}
-        />
-        <div
-          className="absolute inset-0 opacity-25 mix-blend-screen"
-          style={{
-            backgroundImage: [
-              'linear-gradient(112deg, rgba(255, 255, 255, 0.04) 0, rgba(255, 255, 255, 0.04) 1px, transparent 1px)',
-              'linear-gradient(208deg, rgba(255, 255, 255, 0.035) 0, rgba(255, 255, 255, 0.035) 1px, transparent 1px)',
-            ].join(', '),
-            backgroundSize: '160px 160px',
-          }}
-        />
-        <div
-          className="absolute left-1/2 top-[-18%] h-[110vh] w-[160vw] -translate-x-1/2 rotate-3 rounded-[30rem] bg-gradient-to-r from-indigo-600/18 via-sky-500/10 to-transparent blur-3xl"
-          style={{ maskImage: 'radial-gradient(circle at 50% 20%, rgba(0, 0, 0, 0.9), transparent 70%)' }}
-        />
-        <div
-          className="absolute right-[-18%] top-[28%] h-[520px] w-[820px] -rotate-[10deg] rounded-[18rem] bg-gradient-to-br from-cyan-400/25 via-blue-500/20 to-indigo-500/12 blur-[100px]"
-          style={{ maskImage: 'radial-gradient(circle at 70% 50%, black 0%, transparent 70%)' }}
-        />
-        <div
-          className="absolute left-[-24%] bottom-[-20%] h-[680px] w-[820px] rotate-[16deg] rounded-[22rem] bg-gradient-to-tr from-purple-500/20 via-fuchsia-500/24 to-orange-500/14 blur-[120px]"
-          style={{ maskImage: 'radial-gradient(circle at 35% 35%, black 0%, transparent 72%)' }}
-        />
-        <div
-          className="absolute inset-0 opacity-[0.28]"
-          style={{
-            backgroundImage:
-              'radial-gradient(circle, rgba(255,255,255,0.09) 0.5px, transparent 0.5px)',
-            backgroundSize: '18px 18px',
-            maskImage: 'radial-gradient(circle at 50% 50%, black 40%, transparent 70%)',
-          }}
-        />
-        <div className="absolute left-1/2 top-1/2 h-[620px] w-[620px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-sky-300/20" />
-        <div className="absolute left-1/2 top-1/2 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-purple-300/15" />
+    <div className="relative min-h-screen overflow-hidden bg-slate-950 text-slate-100">
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute -top-24 -left-16 h-64 w-64 rounded-full bg-indigo-600/40 blur-3xl" />
+        <div className="absolute top-40 -right-20 h-80 w-80 rounded-full bg-cyan-500/30 blur-3xl" />
+        <div className="absolute bottom-0 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-emerald-500/20 blur-3xl" />
       </div>
 
       <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-4xl flex-col gap-8 px-6 py-16 sm:px-10">
-        <section className="rounded-3xl border border-white/10 bg-white/10 p-8 shadow-[0_30px_120px_rgba(15,118,110,0.18)] backdrop-blur-xl">
+        <section className="rounded-3xl border border-white/10 bg-white/10 p-8 shadow-2xl backdrop-blur">
           <div className="flex flex-col items-center gap-8 text-center sm:flex-row sm:text-left">
             <div className="flex flex-col items-center gap-3 sm:items-start">
               <div className="overflow-hidden rounded-3xl border border-white/20 shadow-lg">

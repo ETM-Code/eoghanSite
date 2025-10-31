@@ -6,56 +6,56 @@
     "location": "Galway, Ireland",
     "avatar": "images/avatar-cropped.jpg"
   },
-  "linkOrder": [
-    "whatsapp",
-    "linkedin",
-    "x",
-    "studysmith",
-    "calendly",
-    "email",
-    "drive"
-  ],
+"linkOrder": [
+  "studysmith",   
+  "calendly",     
+  "whatsapp",     
+  "linkedin",     
+  "x",            
+  "email",        
+  "drive"         
+],
+
   "links": [
     {
       "id": "whatsapp",
       "label": "WhatsApp",
-      "href": "https://wa.me/0000000000",
+      "href": "https://wa.me/qr/PGPN2UMA7TZCM1",
       "description": "Message me instantly to start a conversation.",
       "icon": "/links/icons/whatsapp.png"
     },
     {
       "id": "linkedin",
       "label": "LinkedIn",
-      "href": "https://www.linkedin.com/in/your-profile",
-      "description": "Connect professionally and explore my experience.",
-      "icon": "/links/icons/linkedin.svg",
-      "iconTransform": "translate(-3%, -6%)"
+      "href": "https://www.linkedin.com/in/eoghan-timothy-collins",
+      "description": "Professional experience.",
+      "icon": "/links/icons/linkedin.svg"
     },
     {
       "id": "x",
       "label": "X (Twitter)",
-      "href": "https://x.com/your-handle",
-      "description": "Follow along with quick thoughts and updates.",
+      "href": "https://x.com/etmcollins",
+      "description": "Quick thoughts and updates.",
       "icon": "/links/icons/x.svg"
     },
     {
       "id": "studysmith",
       "label": "StudySmith",
-      "href": "https://studysmith.io/your-space",
-      "description": "See what we are building to reimagine learning.",
+      "href": "https://studysmith.app",
+      "description": "The future of education.",
       "icon": "/links/icons/studysmith-white-bg.png"
     },
     {
       "id": "calendly",
       "label": "Calendly",
-      "href": "https://calendly.com/your-schedule",
+      "href": "https://calendly.com/eoghan-studysmith/30min",
       "description": "Pick a time for a chat that suits us both.",
       "icon": "/links/icons/calendly.svg"
     },
     {
       "id": "email",
       "label": "Email",
-      "href": "mailto:hello@example.com",
+      "href": "mailto:eoghan@studysmith.app",
       "description": "Drop me a considered note and I will reply soon.",
       "icon": "/links/icons/email.svg"
     },
@@ -63,7 +63,7 @@
       "id": "drive",
       "label": "Google Drive",
       "href": "https://drive.google.com/your-folder",
-      "description": "Download shared resources and project files.",
+      "description": "1-pagers for my projects.",
       "icon": "/links/icons/google-drive.svg"
     }
   ]
