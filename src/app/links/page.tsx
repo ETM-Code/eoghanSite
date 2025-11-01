@@ -135,6 +135,23 @@ export default async function LinksPage() {
       </div>
 
       <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-4xl flex-col gap-8 px-6 py-16 sm:px-10">
+        <Link
+          href="/"
+          className="ml-auto inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-white/70 transition hover:border-white/30 hover:bg-white/10 hover:text-white"
+          aria-label="Back to landing page"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden className="h-4 w-4 rotate-180">
+            <path
+              d="M5 12h12M13 6l6 6-6 6"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          Home
+        </Link>
         <section className="rounded-3xl border border-white/10 bg-white/10 p-8 shadow-[0_30px_120px_rgba(15,118,110,0.18)] backdrop-blur-xl">
           <div className="flex flex-col items-center gap-8 text-center sm:flex-row sm:text-left">
             <div className="flex flex-col items-center gap-3 sm:items-start">

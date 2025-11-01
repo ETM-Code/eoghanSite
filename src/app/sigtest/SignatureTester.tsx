@@ -8,6 +8,12 @@ type SignatureTesterProps = {
   signature: {
     viewBox: string;
     paths: string[];
+    bounds: {
+      minX: number;
+      minY: number;
+      width: number;
+      height: number;
+    };
   };
 };
 
@@ -18,6 +24,8 @@ export default function SignatureTester({ signature }: SignatureTesterProps) {
   const [iteration, setIteration] = useState(0);
 
   const [order, setOrder] = useState<number[]>(() => signature.paths.map((_, idx) => idx));
+  const SKIP_THRESHOLD = 22;
+  const EDGE_BIAS = 1.8;
 
   const orderedPaths = useMemo(() => {
     return order.map((originalIndex) => ({
@@ -34,6 +42,8 @@ export default function SignatureTester({ signature }: SignatureTesterProps) {
     length: number;
     start: { x: number; y: number };
     end: { x: number; y: number };
+    startNormalized: { x: number; y: number };
+    endNormalized: { x: number; y: number };
   };
 
   const distance = (a: { x: number; y: number }, b: { x: number; y: number }) => {
@@ -51,15 +61,13 @@ export default function SignatureTester({ signature }: SignatureTesterProps) {
     const descriptorMap = new Map(descriptors.map((descriptor) => [descriptor.index, descriptor]));
 
     const pickStart = () => {
-      let chosen = descriptors[0];
-      descriptors.forEach((descriptor) => {
-        const score = descriptor.start.y + descriptor.start.x * 0.25;
-        const currentScore = chosen.start.y + chosen.start.x * 0.25;
-        if (score < currentScore) {
-          chosen = descriptor;
-        }
-      });
-      return chosen;
+      const leftCandidates = descriptors.filter((descriptor) => descriptor.startNormalized.x <= 33.5);
+      const candidates = leftCandidates.length ? leftCandidates : descriptors;
+      return candidates.reduce((best, descriptor) => {
+        const score = descriptor.startNormalized.y + descriptor.startNormalized.x * 0.15;
+        const bestScore = best.startNormalized.y + best.startNormalized.x * 0.15;
+        return score < bestScore ? descriptor : best;
+      }, candidates[0]);
     };
 
     const orderSequence: number[] = [];
@@ -77,18 +85,38 @@ export default function SignatureTester({ signature }: SignatureTesterProps) {
       let best: Descriptor | undefined;
       let bestScore = Number.POSITIVE_INFINITY;
 
+      let merged: Descriptor | undefined;
+
       unused.forEach((candidateIndex) => {
         const candidate = descriptorMap.get(candidateIndex);
         if (!candidate) {
           return;
         }
-        const edgeBias = 1 + Math.pow(Math.abs(candidate.start.x - 50) / 50, 1.6) * 0.9;
-        const score = distance(current!.end, candidate.start) * edgeBias;
+        const travelDistance = distance(current!.end, candidate.start);
+        if (travelDistance < SKIP_THRESHOLD && !merged) {
+          merged = {
+            ...candidate,
+            start: current!.start,
+            startNormalized: current!.startNormalized,
+          };
+          orderSequence.push(candidate.index);
+          unused.delete(candidate.index);
+          return;
+        }
+
+        const edgeWeight =
+          1 + Math.pow(Math.abs(candidate.startNormalized.x - 50) / 50, EDGE_BIAS) * 1.4;
+        const score = travelDistance * edgeWeight;
         if (score < bestScore) {
           bestScore = score;
           best = candidate;
         }
       });
+
+      if (merged) {
+        current = merged;
+        continue;
+      }
 
       if (!best) {
         break;
@@ -113,7 +141,9 @@ export default function SignatureTester({ signature }: SignatureTesterProps) {
     if (!svgRef.current) {
       return;
     }
-    const nodes = Array.from(svgRef.current.querySelectorAll('path')) as SVGPathElement[];
+    const nodes = Array.from(
+      svgRef.current.querySelectorAll('path[data-role="stroke"]'),
+    ) as SVGPathElement[];
     if (!nodes.length) {
       return;
     }
@@ -124,11 +154,17 @@ export default function SignatureTester({ signature }: SignatureTesterProps) {
       const length = node.getTotalLength();
       const startPoint = node.getPointAtLength(0);
       const endPoint = node.getPointAtLength(length);
+      const normalize = (point: { x: number; y: number }) => ({
+        x: ((point.x - signature.bounds.minX) / signature.bounds.width) * 100,
+        y: ((point.y - signature.bounds.minY) / signature.bounds.height) * 100,
+      });
       return {
         index,
         length,
         start: { x: startPoint.x, y: startPoint.y },
         end: { x: endPoint.x, y: endPoint.y },
+        startNormalized: normalize({ x: startPoint.x, y: startPoint.y }),
+        endNormalized: normalize({ x: endPoint.x, y: endPoint.y }),
       };
     });
 
@@ -157,24 +193,24 @@ export default function SignatureTester({ signature }: SignatureTesterProps) {
     }
 
     controls.stop();
-    controls.set(() => ({ pathLength: 0 }));
+    controls.set((index: number) => ({ strokeDashoffset: lengths[index] ?? 1 }));
 
     const timeline: Array<{ index: number; start: number; duration: number }> = [];
     let cursor = 0;
     segments.forEach((portion, idx) => {
       const segDuration = Math.max(0.05, portion * duration);
       timeline.push({ index: idx, start: cursor, duration: segDuration });
-      cursor += segDuration * 0.78;
+      cursor += segDuration;
     });
 
     const run = async () => {
       await controls.start((index: number) => {
         const segment = timeline.find((entry) => entry.index === index);
         if (!segment) {
-          return { pathLength: 1 };
+          return { strokeDashoffset: 0 };
         }
         return {
-          pathLength: 1,
+          strokeDashoffset: 0,
           transition: {
             duration: segment.duration,
             delay: segment.start,
@@ -197,25 +233,25 @@ export default function SignatureTester({ signature }: SignatureTesterProps) {
   };
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-4xl flex-col gap-12 px-6 py-20">
+    <div className="mx-auto flex min-h-screen max-w-4xl flex-col gap-12 px-6 py-20 text-black">
       <header className="flex flex-col gap-3">
         <h1 className="text-2xl font-semibold tracking-wide">Signature Animation Lab</h1>
-        <p className="text-sm text-white/70">
+        <p className="text-sm text-black/60">
           Tune the stroke pacing and replay the animation to explore different drawing feels. Current
-          duration: <span className="font-semibold text-white">{duration.toFixed(2)}s</span>
+          duration: <span className="font-semibold text-black">{duration.toFixed(2)}s</span>
         </p>
       </header>
 
-      <div className="flex flex-col gap-6 rounded-3xl border border-white/10 bg-white/5 p-8 shadow-[0_50px_120px_rgba(14,116,144,0.18)] backdrop-blur-xl">
+      <div className="flex flex-col gap-6 rounded-3xl border border-black/10 bg-white p-8 shadow-[0_40px_90px_rgba(0,0,0,0.08)]">
         <div className="flex items-center gap-4">
-          <label className="text-sm uppercase tracking-[0.3em] text-white/70" htmlFor="duration">
+          <label className="text-sm uppercase tracking-[0.3em] text-black/70" htmlFor="duration">
             Duration
           </label>
           <input
             id="duration"
             type="range"
             min="0.4"
-            max="10.0"
+            max="4.0"
             step="0.05"
             value={duration}
             onChange={handleSlider}
@@ -224,35 +260,64 @@ export default function SignatureTester({ signature }: SignatureTesterProps) {
           <button
             type="button"
             onClick={handleReplay}
-            className="rounded-full border border-white/20 px-4 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-white transition hover:bg-white hover:text-black"
+            className="rounded-full border border-black/20 px-4 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-black transition hover:bg-black hover:text-white"
           >
             Replay
           </button>
         </div>
 
-        <div className="relative flex h-[320px] items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-b from-white/5 via-white/2 to-white/0">
+        <div className="relative flex h-[320px] items-center justify-center overflow-hidden rounded-2xl bg-white shadow-inner">
           <svg
             key={iteration}
             ref={svgRef}
             viewBox={signature.viewBox}
             className="h-full w-full"
           >
-            {orderedPaths.map((path, index) => (
-              <motion.path
-                key={`${path.d}-${index}`}
-                custom={index}
-                animate={controls}
-                initial={{ pathLength: 0 }}
-                d={path.d}
-                fill="transparent"
-                stroke="currentColor"
-                strokeWidth={2}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                pathLength={1}
-                data-index={path.originalIndex}
-              />
-            ))}
+            {orderedPaths.map((path, index) => {
+              const length = lengths[index] ?? 1;
+              const maskId = `sig-mask-${iteration}-${index}`;
+              const maskStroke = Math.max(18, signature.bounds.width / 80);
+
+              return (
+                <g key={`${path.d}-${index}`}>
+                  <mask id={maskId} maskUnits="userSpaceOnUse">
+                    <motion.path
+                      custom={index}
+                      animate={controls}
+                      initial={{ strokeDasharray: length, strokeDashoffset: length }}
+                      d={path.d}
+                      fill="none"
+                      stroke="white"
+                      strokeWidth={maskStroke}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeDasharray={length}
+                      data-index={path.originalIndex}
+                    />
+                  </mask>
+                  <path
+                    d={path.d}
+                    fill="currentColor"
+                    opacity={0.9}
+                    mask={`url(#${maskId})`}
+                  />
+                  <motion.path
+                    custom={index}
+                    animate={controls}
+                    initial={{ strokeDasharray: length, strokeDashoffset: length }}
+                    d={path.d}
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeDasharray={length}
+                    data-index={path.originalIndex}
+                    data-role="stroke"
+                  />
+                </g>
+              );
+            })}
           </svg>
         </div>
       </div>

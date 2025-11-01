@@ -37,6 +37,8 @@ type MountainLayer = {
   zIndex: number;
   offset: number;
   compactOffset: number;
+  horizontalShift?: number;
+  compactHorizontalShift?: number;
 };
 
 type Star = {
@@ -154,6 +156,11 @@ function ConstellationSegment({ connection, progress, visibleRange }: Constellat
     return null;
   }
 
+  const minAbsolute = Math.min(connection.from.y, connection.to.y);
+  if (minAbsolute > 40) {
+    return null;
+  }
+
   const visibleHeight = Math.max(8, bottom - top);
   const minNormalized = (Math.min(connection.from.y, connection.to.y) - top) / visibleHeight;
   if (minNormalized > 0.4) {
@@ -199,10 +206,13 @@ type ProjectCardProps = {
 function ProjectCard({ project, index, scrollDirectionRef }: ProjectCardProps) {
   const isEven = index % 2 === 0;
   const controls = useAnimationControls();
-  const ref = useRef<HTMLAnchorElement | null>(null);
-  const inView = useInView(ref, {
-    amount: 0.55,
-    margin: '-15% 0px -30% 0px',
+  const anchorRef = useRef<HTMLAnchorElement | null>(null);
+  const divRef = useRef<HTMLDivElement | null>(null);
+  const hasHref = project.href && project.href.trim() !== '';
+  const inViewRef = hasHref ? anchorRef : divRef;
+  const inView = useInView(inViewRef as React.RefObject<HTMLElement>, {
+    amount: 0.4,
+    margin: '-15% 0px -10% 0px',
   });
   const [hasEntered, setHasEntered] = useState(false);
 
@@ -223,32 +233,26 @@ function ProjectCard({ project, index, scrollDirectionRef }: ProjectCardProps) {
     }
   }, [controls, hasEntered, inView, isEven, scrollDirectionRef]);
 
-  return (
-    <motion.a
-      href={project.href}
-      target="_blank"
-      rel="noopener noreferrer"
-      ref={ref}
-      initial={{ opacity: 0, x: isEven ? -60 : 60 }}
-      animate={controls}
-      className="group grid gap-8 rounded-3xl border border-white/10 bg-white/5 p-6 shadow-[0_50px_120px_rgba(14,116,144,0.18)] backdrop-blur-lg sm:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)]"
-    >
+  const cardContent = (
+    <>
       <div className={`${isEven ? 'order-1 sm:order-1' : 'order-1 sm:order-2'} flex flex-col gap-4`}>
         <h3 className="text-2xl font-semibold text-white sm:text-3xl">{project.title}</h3>
         <p className="text-sm leading-relaxed text-slate-200 sm:text-base">{project.description}</p>
-        <span className="inline-flex items-center gap-2 text-sm font-semibold text-cyan-200 transition group-hover:gap-3">
-          Visit project
-          <svg viewBox="0 0 24 24" aria-hidden className="h-4 w-4">
-            <path
-              d="M5 12h12M13 6l6 6-6 6"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={1.5}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </span>
+        {hasHref && (
+          <span className="inline-flex items-center gap-2 text-sm font-semibold text-cyan-200 transition group-hover:gap-3">
+            Visit project
+            <svg viewBox="0 0 24 24" aria-hidden className="h-4 w-4">
+              <path
+                d="M5 12h12M13 6l6 6-6 6"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={1.5}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </span>
+        )}
       </div>
       <div
         className={`${isEven ? 'order-2 sm:order-2' : 'order-2 sm:order-1'} relative aspect-[4/3] overflow-hidden rounded-2xl border border-white/10`}
@@ -262,7 +266,33 @@ function ProjectCard({ project, index, scrollDirectionRef }: ProjectCardProps) {
         />
         <div className="absolute inset-0 bg-gradient-to-tr from-white/10 via-transparent to-transparent opacity-0 transition group-hover:opacity-100" />
       </div>
-    </motion.a>
+    </>
+  );
+
+  const commonProps = {
+    initial: { opacity: 0, x: isEven ? -60 : 60 },
+    animate: controls,
+    className: "group grid gap-8 rounded-3xl border border-white/10 bg-white/5 p-6 shadow-[0_50px_120px_rgba(14,116,144,0.18)] backdrop-blur-lg sm:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)]"
+  };
+
+  if (hasHref) {
+    return (
+      <motion.a
+        href={project.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        ref={anchorRef}
+        {...commonProps}
+      >
+        {cardContent}
+      </motion.a>
+    );
+  }
+
+  return (
+    <motion.div ref={divRef} {...commonProps}>
+      {cardContent}
+    </motion.div>
   );
 }
 
@@ -393,9 +423,33 @@ function createConnections(stars: Star[], maxConstellations = 6, seed = 5151): S
 }
 
 const MOUNTAIN_LAYERS: MountainLayer[] = [
-  { id: 5, src: '/mountainous/5.svg', depth: 0.065, scale: 0.84, zIndex: 48, offset: -8, compactOffset: -7 },
-  { id: 4, src: '/mountainous/4.svg', depth: 0.08, scale: 0.89, zIndex: 52, offset: 6, compactOffset: 6 },
-  { id: 3, src: '/mountainous/3.svg', depth: 0.105, scale: 0.94, zIndex: 58, offset: 2, compactOffset: 3 },
+  {
+    id: 5,
+    src: '/mountainous/5.svg',
+    depth: 0.065,
+    scale: 0.84,
+    zIndex: 48,
+    offset: -8,
+    compactOffset: -7,
+  },
+  {
+    id: 4,
+    src: '/mountainous/4.svg',
+    depth: 0.08,
+    scale: 0.89,
+    zIndex: 52,
+    offset: 6,
+    compactOffset: 6,
+  },
+  {
+    id: 3,
+    src: '/mountainous/3.svg',
+    depth: 0.105,
+    scale: 0.94,
+    zIndex: 58,
+    offset: 2,
+    compactOffset: 3,
+  },
   {
     id: 2,
     src: '/mountainous/2.svg',
@@ -413,6 +467,8 @@ const MOUNTAIN_LAYERS: MountainLayer[] = [
     zIndex: 70,
     offset: -14,
     compactOffset: -8,
+    horizontalShift: -4,
+    compactHorizontalShift: -1.5,
   },
 ];
 
@@ -463,11 +519,22 @@ export default function NewHomePage({ intro, projects }: ProjectContent) {
 
   const layerTransforms = [layer1Y, layer2Y, layer3Y, layer4Y, layer5Y];
 
-  const parallaxLayers = MOUNTAIN_LAYERS.map((layer, index) => ({
-    ...layer,
-    translateY: layerTransforms[index],
-    baseBottom: isCompact ? layer.compactOffset : layer.offset,
-  }));
+  const parallaxLayers = MOUNTAIN_LAYERS.map((layer, index) => {
+    const horizontalShiftVw = isCompact
+      ? layer.compactHorizontalShift ?? layer.horizontalShift ?? 0
+      : layer.horizontalShift ?? 0;
+
+    const baseShiftPx = viewportWidth !== null ? (horizontalShiftVw * viewportWidth) / 100 : 0;
+
+    return {
+      ...layer,
+      translateY: layerTransforms[index],
+      baseBottom: isCompact ? layer.compactOffset : layer.offset,
+      baseShiftPx,
+    };
+  });
+
+  const mountainContainerWidth = isCompact ? 130 : 118;
 
   const handleScrollToProjects = () => {
     projectsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -507,11 +574,11 @@ export default function NewHomePage({ intro, projects }: ProjectContent) {
         </div>
 
         <div className={`pointer-events-none absolute inset-x-0 bottom-0 ${isCompact ? 'h-[58vh]' : 'h-[64vh]'} z-0`}>
-          <div className={`absolute bottom-0 h-full ${isCompact ? 'inset-x-[-12vw]' : 'inset-x-[-8vw]'}`}>
-            <div
-              className="relative mx-auto h-full w-[118vw] max-w-[1780px]"
-              style={{ marginLeft: isCompact ? '-2vw' : '-4vw' }}
-            >
+          <div
+            className="absolute bottom-0 left-1/2 h-full -translate-x-1/2"
+            style={{ width: `${mountainContainerWidth}vw` }}
+          >
+            <div className="relative h-full w-full">
               {parallaxLayers.map((layer) => (
                 <motion.img
                   key={layer.id}
@@ -523,6 +590,7 @@ export default function NewHomePage({ intro, projects }: ProjectContent) {
                     scale: layer.scale,
                     zIndex: layer.zIndex,
                     bottom: `${layer.baseBottom}vh`,
+                    x: layer.baseShiftPx,
                   }}
                   draggable={false}
                 />

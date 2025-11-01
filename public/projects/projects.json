@@ -1,7 +1,7 @@
 {
   "intro": {
-    "headline": "Building meaningful systems",
-    "copy": "A peek into the experiments and products I am shaping right now—where research, craft, and a bias for action meet." 
+    "headline": "My Projects",
+    "copy": "An overview of some things I've worked on between software, AI, hardware, and research.." 
   },
   "projects": [
     {
@@ -26,6 +26,13 @@
       "href": "/scholar-matcher"
     },
     {
+      "id": "tyndall",
+      "title": "Laser Power Transmission System",
+      "description": "A laser power transmission system buit in collaboration with Tyndall National Institute that uses 450nm lasers to drive functional logic and transmission circuits, achieving significant wireless power transmission and broadening the field of power photonics, presented at Photonics Ireland.",
+      "image": "/projects/images/tyndall.jpeg",
+      "href": "https://drive.google.com/file/d/1QklnfeLOm8Iu5CH-uDHll_2_5B4pGCfj/view?usp=sharing"
+    },
+    {
       "id": "grid-simulator",
       "title": "GridAI",
       "description": "Custom machine learning to optimise energy policy and grid development.",
@@ -36,14 +43,14 @@
       "id": "forceField",
       "title": "ForceField",
       "description": "Impact-detecting sensor system for hurling helmets with custom mesh networking, enabling real-time concussion risk assessment across 100m+ range.",
-      "image": "/projects/images/forceField.png",
+      "image": "/projects/images/forcefield.png",
       "href": "/forceField"
     },
     {
       "id": "medDB",
-      "title": "Multipurpose MEDICAL Database",
+      "title": "Multipurpose Medical Database",
       "description": "A database for medical practices to manage their patients, appointments, procedures, processes and more. Currently in-use at a medical practice.",
-      "image": "/projects/images/medDB.png",
+      "image": "/projects/images/med-db.png",
       "href": "/medDB"
     }
   ]

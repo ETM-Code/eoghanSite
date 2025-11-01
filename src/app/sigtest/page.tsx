@@ -8,12 +8,24 @@ export const metadata: Metadata = {
   description: 'Playground for iterating on the signature drawing animation.',
 };
 
-async function loadSignatureSvg(): Promise<{ viewBox: string; paths: string[] }> {
+type SignatureData = {
+  viewBox: string;
+  paths: string[];
+  bounds: {
+    minX: number;
+    minY: number;
+    width: number;
+    height: number;
+  };
+};
+
+async function loadSignatureSvg(): Promise<SignatureData> {
   const svgPath = path.join(process.cwd(), 'public', 'signatures', 'signature.svg');
   const raw = await fs.readFile(svgPath, 'utf-8');
 
   const viewBoxMatch = raw.match(/viewBox="([^"]+)"/i);
   const viewBox = viewBoxMatch ? viewBoxMatch[1] : '0 0 800 400';
+  const [minX = 0, minY = 0, width = 800, height = 400] = viewBox.split(/[ ,]+/).map(Number);
 
   const pathRegex = /<path[^>]*d="([^"]+)"[^>]*>/gi;
   const paths: string[] = [];
@@ -22,7 +34,11 @@ async function loadSignatureSvg(): Promise<{ viewBox: string; paths: string[] }>
     paths.push(match[1]);
   }
 
-  return { viewBox, paths };
+  return {
+    viewBox,
+    paths,
+    bounds: { minX, minY, width, height },
+  };
 }
 
 export default async function SigTestPage() {
