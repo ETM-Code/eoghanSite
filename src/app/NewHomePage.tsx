@@ -476,6 +476,7 @@ export default function NewHomePage({ intro, projects }: ProjectContent) {
   const projectsRef = useRef<HTMLDivElement | null>(null);
   const { scrollY } = useScroll();
   const [viewportWidth, setViewportWidth] = useState<number | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
   const stars = useMemo(() => createStars(220), []);
   const connections = useMemo(() => createConnections(stars, 44), [stars]);
   const scrollDirection = useRef<'up' | 'down'>('down');
@@ -494,6 +495,10 @@ export default function NewHomePage({ intro, projects }: ProjectContent) {
     updateWidth();
     window.addEventListener('resize', updateWidth);
     return () => window.removeEventListener('resize', updateWidth);
+  }, []);
+
+  useEffect(() => {
+    setIsMounted(true);
   }, []);
 
   const isCompact = viewportWidth !== null && viewportWidth < 1024;
@@ -579,22 +584,41 @@ export default function NewHomePage({ intro, projects }: ProjectContent) {
             style={{ width: `${mountainContainerWidth}vw` }}
           >
             <div className="relative h-full w-full">
-              {parallaxLayers.map((layer) => (
-                <motion.img
-                  key={layer.id}
-                  src={layer.src}
-                  alt="Mountain layer"
-                  className="absolute left-0 w-full select-none"
-                  style={{
-                    y: layer.translateY,
-                    scale: layer.scale,
-                    zIndex: layer.zIndex,
-                    bottom: `${layer.baseBottom}vh`,
-                    x: layer.baseShiftPx,
-                  }}
-                  draggable={false}
-                />
-              ))}
+              {parallaxLayers.map((layer) => {
+                if (isMounted) {
+                  return (
+                    <motion.img
+                      key={layer.id}
+                      src={layer.src}
+                      alt="Mountain layer"
+                      className="absolute left-0 w-full select-none"
+                      style={{
+                        y: layer.translateY,
+                        scale: layer.scale,
+                        zIndex: layer.zIndex,
+                        bottom: `${layer.baseBottom}vh`,
+                        x: layer.baseShiftPx,
+                      }}
+                      draggable={false}
+                    />
+                  );
+                }
+
+                return (
+                  <img
+                    key={layer.id}
+                    src={layer.src}
+                    alt="Mountain layer"
+                    className="absolute left-0 w-full select-none"
+                    style={{
+                      transform: `translateX(${layer.baseShiftPx}px) scale(${layer.scale})`,
+                      zIndex: layer.zIndex,
+                      bottom: `${layer.baseBottom}vh`,
+                    }}
+                    draggable={false}
+                  />
+                );
+              })}
             </div>
           </div>
         </div>
@@ -609,34 +633,54 @@ export default function NewHomePage({ intro, projects }: ProjectContent) {
         }}
       >
         <div className="pointer-events-none absolute inset-x-0 top-0 -translate-y-[16vh] h-[24vh] bg-gradient-to-b from-black via-black/95 to-transparent z-10" />
-        <motion.svg
-          viewBox="0 0 100 100"
-          preserveAspectRatio="none"
-          className="pointer-events-none absolute inset-0 z-0 h-full w-full"
-          style={{
-            opacity: fractalOpacity,
-            y: fractalTranslate,
-            scale: fractalScale,
-          }}
-        >
-          {stars.map((star) => (
-            <circle
-              key={star.id}
-              cx={star.x}
-              cy={star.y}
-              r={star.size / 18}
-              fill="rgba(255,255,255,0.7)"
-            />
-          ))}
-        </motion.svg>
-        <ConstellationLayer
-          opacity={constellationOpacity}
-          stars={stars}
-          connections={connections}
-          translate={fractalSecondaryTranslate}
-          progress={constellationProgress}
-          projectsRef={projectsRef}
-        />
+        {isMounted ? (
+          <motion.svg
+            viewBox="0 0 100 100"
+            preserveAspectRatio="none"
+            className="pointer-events-none absolute inset-0 z-0 h-full w-full"
+            style={{
+              opacity: fractalOpacity,
+              y: fractalTranslate,
+              scale: fractalScale,
+            }}
+          >
+            {stars.map((star) => (
+              <circle
+                key={star.id}
+                cx={star.x}
+                cy={star.y}
+                r={star.size / 18}
+                fill="rgba(255,255,255,0.7)"
+              />
+            ))}
+          </motion.svg>
+        ) : (
+          <svg
+            viewBox="0 0 100 100"
+            preserveAspectRatio="none"
+            className="pointer-events-none absolute inset-0 z-0 h-full w-full"
+          >
+            {stars.map((star) => (
+              <circle
+                key={star.id}
+                cx={star.x}
+                cy={star.y}
+                r={star.size / 18}
+                fill="rgba(255,255,255,0.7)"
+              />
+            ))}
+          </svg>
+        )}
+        {isMounted ? (
+          <ConstellationLayer
+            opacity={constellationOpacity}
+            stars={stars}
+            connections={connections}
+            translate={fractalSecondaryTranslate}
+            progress={constellationProgress}
+            projectsRef={projectsRef}
+          />
+        ) : null}
         <div className="layout-shell relative z-20 px-6 sm:px-10">
           <header className="max-w-3xl">
             <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">{intro.headline}</h2>

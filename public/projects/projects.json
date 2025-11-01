@@ -36,7 +36,7 @@
       "id": "grid-simulator",
       "title": "GridAI",
       "description": "Custom machine learning to optimise energy policy and grid development.",
-      "image": "/projects/images/gridai.png",
+      "image": "/projects/images/gridAI.png",
       "href": "https://github.com/ETM-Code/eirgrid"
     },
     {
@@ -52,6 +52,13 @@
       "description": "A database for medical practices to manage their patients, appointments, procedures, processes and more. Currently in-use at a medical practice.",
       "image": "/projects/images/med-db.png",
       "href": ""
+    },
+    {
+      "id": "UCASH",
+      "title": "UCASH Financial Guidance",
+      "description": "A way to help students without financial literacy manage their finances and make better financial decisions.",
+      "image": "/projects/images/ucash.png",
+      "href": "https://ucash.vercel.app"
     }
   ]
 }
