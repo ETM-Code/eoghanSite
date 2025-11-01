@@ -50,7 +50,7 @@ const HomePage = () => {
           Here, we delve into the realms of writing, art, and all other creative endeavours!
         </p>
         <p className="text-xl leading-relaxed">
-          Don't forget to check out my dedicated writing site at 
+          Don&apos;t forget to check out my dedicated writing site at 
           <a href="https://etmcollins.com" className="text-blue-600 hover:underline"> etmcollins.com</a>, 
           and my creative YouTube channel, 
           <a href="https://www.youtube.com/channel/UCma7zuZag1X1u1m0Qd3deNw" className="text-blue-600 hover:underline"> ETM_Writes</a>.

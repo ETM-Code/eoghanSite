@@ -134,7 +134,7 @@ export default async function LinksPage() {
         <div className="absolute left-1/2 top-1/2 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-purple-300/15" />
       </div>
 
-      <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-4xl flex-col gap-8 px-6 py-16 sm:px-10">
+      <div className="layout-shell relative z-10 flex min-h-screen flex-col gap-8 px-6 py-16 sm:px-10">
         <Link
           href="/"
           className="ml-auto inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-white/70 transition hover:border-white/30 hover:bg-white/10 hover:text-white"

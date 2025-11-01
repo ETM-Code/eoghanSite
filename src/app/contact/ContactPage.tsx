@@ -147,7 +147,7 @@ const ContactPage: React.FC = () => {
             </motion.div>
             <div className="flex-grow md:ml-6">
               <h2 className="text-2xl font-semibold mb-2 text-blue-300">Freelance</h2>
-              <p className="text-gray-400 mb-4">I do programming, copywriting, and everything in between. You can check out my Upwork, if you're more comfortable with that, or contact me directly!</p>
+              <p className="text-gray-400 mb-4">I do programming, copywriting, and everything in between. You can check out my Upwork, if you&apos;re more comfortable with that, or contact me directly!</p>
               <div className="flex flex-col sm:flex-row sm:items-center">
                 <Link href="https://www.upwork.com/freelancers/~0101d2191d7f64c09f" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 transition-colors inline-flex items-center mb-2 sm:mb-0 sm:mr-4 pr-10">
                   View my Upwork profile
@@ -180,7 +180,7 @@ const ContactPage: React.FC = () => {
             </motion.div>
             <div className="flex-grow md:mr-6 text-right">
               <h2 className="text-2xl font-semibold mb-2 text-green-300">Tutoring</h2>
-              <p className="text-gray-400 mb-4">I'm a tutor too! You can find me on SuperProf or connect directly! I teach all maths, applied maths, physics, computer science, and Spanish, with a particular emphasis on the Leaving Certificate.</p>
+              <p className="text-gray-400 mb-4">I&apos;m a tutor too! You can find me on SuperProf or connect directly! I teach all maths, applied maths, physics, computer science, and Spanish, with a particular emphasis on the Leaving Certificate.</p>
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-end">
                 <Link href="https://www.superprof.ie/engineering-student-with-625-leaving-cert-points-teaches-maths-physics-applied-maths.html" target="_blank" rel="noopener noreferrer" className="text-green-400 hover:text-green-300 transition-colors inline-flex items-center justify-end mb-2 sm:mb-0 sm:ml-4 pr-10">
                   View my SuperProf profile
@@ -213,7 +213,7 @@ const ContactPage: React.FC = () => {
             </motion.div>
             <div className="flex-grow md:ml-6">
               <h2 className="text-2xl font-semibold mb-2 text-purple-300">Anything else?</h2>
-              <p className="text-gray-400 mb-4">Why wouldn't you want to chat to me? If your reasons for contacting me don't fit in one of the previous reasons, drop me a line and I'll get back to you as soon as I can...or whenever it is I remember my email password...</p>
+              <p className="text-gray-400 mb-4">Why wouldn&apos;t you want to chat to me? If your reasons for contacting me don&apos;t fit in one of the previous reasons, drop me a line and I&apos;ll get back to you as soon as I can...or whenever it is I remember my email password...</p>
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}

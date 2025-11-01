@@ -20,7 +20,7 @@ import {
 } from '@chakra-ui/react';
 
 export default function Home() {
-  const { data: session } = useSession();
+  const session = useSession()?.data ?? null;
   const toast = useToast();
   const [sourceUrl, setSourceUrl] = useState('');
   const [direction, setDirection] = useState('apple_to_spotify');

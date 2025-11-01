@@ -1,11 +1,17 @@
 // app/technical/components/TechBlog.tsx
-"use client"
+"use client";
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Masonry from 'react-masonry-css';
 import ReactMarkdown from 'react-markdown';
 import { FaArrowLeft } from 'react-icons/fa';
-import { TechBlogPost } from '../../api/technicalBlogPosts/route';
+type TechBlogPost = {
+  id: string;
+  title: string;
+  date: string;
+  content: string;
+  thumbnail?: string | null;
+};
 
 const TechBlog: React.FC = () => {
   const [blogPosts, setBlogPosts] = useState<TechBlogPost[]>([]);

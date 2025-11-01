@@ -1,12 +1,20 @@
 // app/creative/art/page.tsx
-"use client"
+"use client";
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import Masonry from 'react-masonry-css';
 import { FaArrowLeft, FaPlay } from 'react-icons/fa';
 import { useSearchParams } from 'next/navigation';
-import { ArtPiece } from '../../api/artPieces/route';
+type ArtPiece = {
+  id: string;
+  title: string;
+  date: string;
+  description: string;
+  thumbnail?: string | null;
+  artwork?: string | null;
+  timelapse?: string | null;
+};
 
 const ArtPage: React.FC = () => {
   const [artPieces, setArtPieces] = useState<ArtPiece[]>([]);

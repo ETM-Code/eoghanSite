@@ -387,7 +387,7 @@ function createConnections(stars: Star[], maxConstellations = 6, seed = 5151): S
         const edgeBias = 0.65 + Math.pow(Math.abs(candidate.x - 50) / 50, 1.4) * 1.8;
         const ordinalBoost = 1 + (5 - idx) * 0.22;
         return {
-          candidate,
+          star: candidate,
           weight: distanceFactor * edgeBias * ordinalBoost,
         };
       });
@@ -637,7 +637,7 @@ export default function NewHomePage({ intro, projects }: ProjectContent) {
           progress={constellationProgress}
           projectsRef={projectsRef}
         />
-        <div className="relative z-20 w-full max-w-5xl px-6 sm:px-10">
+        <div className="layout-shell relative z-20 px-6 sm:px-10">
           <header className="max-w-3xl">
             <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">{intro.headline}</h2>
             <p className="mt-4 text-base text-slate-200 sm:text-lg">{intro.copy}</p>

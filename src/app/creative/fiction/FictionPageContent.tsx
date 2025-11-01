@@ -1,12 +1,18 @@
 // app/creative/fiction/page.tsx
-"use client"
+"use client";
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Masonry from 'react-masonry-css';
 import ReactMarkdown from 'react-markdown';
 import { FaArrowLeft } from 'react-icons/fa';
 import { useSearchParams } from 'next/navigation';
-import { FictionPiece } from '../../api/fictionPieces/route';
+type FictionPiece = {
+  id: string;
+  title: string;
+  date: string;
+  content: string;
+  thumbnail?: string | null;
+};
 import { usePostContext } from '../PostContext';
 
 const FictionPage: React.FC = () => {
