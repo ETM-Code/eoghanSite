@@ -236,10 +236,10 @@ function ProjectCard({ project, index, scrollDirectionRef }: ProjectCardProps) {
   const cardContent = (
     <>
       <div className={`${isEven ? 'order-1 sm:order-1' : 'order-1 sm:order-2'} flex flex-col gap-4`}>
-        <h3 className="text-2xl font-semibold text-white sm:text-3xl">{project.title}</h3>
-        <p className="text-sm leading-relaxed text-slate-200 sm:text-base">{project.description}</p>
+        <h3 className="text-4xl font-semibold text-white sm:text-6xl">{project.title}</h3>
+        <p className="text-[22.4px] leading-relaxed text-slate-200 sm:text-[25.6px]">{project.description}</p>
         {hasHref && (
-          <span className="inline-flex items-center gap-2 text-sm font-semibold text-cyan-200 transition group-hover:gap-3">
+          <span className="inline-flex items-center gap-2 text-[22.4px] font-semibold text-cyan-200 transition group-hover:gap-3">
             Visit project
             <svg viewBox="0 0 24 24" aria-hidden className="h-4 w-4">
               <path
@@ -551,7 +551,7 @@ export default function NewHomePage({ intro, projects }: ProjectContent) {
         <button
           type="button"
           onClick={handleScrollToProjects}
-          className="pointer-events-auto rounded-full border border-current px-5 py-2 text-sm font-semibold uppercase tracking-[0.25em] text-white transition hover:scale-[1.04] hover:bg-white hover:text-black"
+          className="pointer-events-auto rounded-full border border-current px-5 py-2 text-[14px] font-semibold uppercase tracking-[0.25em] text-white transition hover:scale-[1.04] hover:bg-white hover:text-black"
         >
           Projects
         </button>
@@ -559,7 +559,7 @@ export default function NewHomePage({ intro, projects }: ProjectContent) {
       <div className="pointer-events-none fixed top-8 right-8 z-[120] mix-blend-difference">
         <Link
           href="/links"
-          className="pointer-events-auto rounded-full border border-current px-5 py-2 text-sm font-semibold uppercase tracking-[0.25em] text-white transition hover:scale-[1.04] hover:bg-white hover:text-black"
+          className="pointer-events-auto rounded-full border border-current px-5 py-2 text-[14px] font-semibold uppercase tracking-[0.25em] text-white transition hover:scale-[1.04] hover:bg-white hover:text-black"
         >
           Links
         </Link>
@@ -575,7 +575,7 @@ export default function NewHomePage({ intro, projects }: ProjectContent) {
             priority
             className="w-[min(90vw,33rem)] object-contain"
           />
-          <p className="mt-6 font-sans text-sm font-semibold uppercase tracking-[0.6em] text-slate-900/80 sm:text-base">Founder | Engineer</p>
+          <p className="mt-6 font-sans text-[14px] font-semibold uppercase tracking-[0.6em] text-slate-900/80 sm:text-[22.4px]">Founder | Engineer</p>
         </div>
 
         <div className={`pointer-events-none absolute inset-x-0 bottom-0 ${isCompact ? 'h-[58vh]' : 'h-[64vh]'} z-0`}>
@@ -683,8 +683,8 @@ export default function NewHomePage({ intro, projects }: ProjectContent) {
         ) : null}
         <div className="layout-shell relative z-20 px-6 sm:px-10">
           <header className="max-w-3xl">
-            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">{intro.headline}</h2>
-            <p className="mt-4 text-base text-slate-200 sm:text-lg">{intro.copy}</p>
+            <h2 className="text-[42px] font-semibold tracking-tight sm:text-[56px] md:text-[70px]">{intro.headline}</h2>
+            <p className="mt-4 text-[22.4px] text-slate-200 sm:text-[25.2px]">{intro.copy}</p>
           </header>
 
           <div className="mt-16 flex flex-col gap-16">
