@@ -64,6 +64,7 @@ type ConstellationLayerProps = {
   projectsRef: MutableRefObject<HTMLDivElement | null>;
   stars: Star[];
   connections: StarConnection[];
+  aspectRatio: number;
 };
 
 function seededRandom(seed: number) {
@@ -74,9 +75,9 @@ function seededRandom(seed: number) {
   };
 }
 
-function ConstellationLayer({ opacity, translate, progress, stars, connections, projectsRef }: ConstellationLayerProps) {
+function ConstellationLayer({ opacity, translate, progress, stars, connections, projectsRef, aspectRatio }: ConstellationLayerProps) {
   const [visibleRange, setVisibleRange] = useState({ top: 0, bottom: 100 });
-
+  const ratio = aspectRatio > 0 ? aspectRatio : 1;
   useEffect(() => {
     const handleScroll = () => {
       const element = projectsRef.current;
@@ -120,11 +121,12 @@ function ConstellationLayer({ opacity, translate, progress, stars, connections, 
         />
       ))}
       {stars.slice(0, 24).map((star) => (
-        <circle
+        <ellipse
           key={`anchor-${star.id}`}
           cx={star.x}
           cy={star.y}
-          r={star.size / 24}
+          rx={star.size / 24}
+          ry={(star.size / 24) / ratio}
           fill="rgba(255,255,255,0.55)"
         />
       ))}
@@ -174,9 +176,10 @@ function ConstellationSegment({ connection, progress, visibleRange }: Constellat
         y1={connection.from.y}
         x2={connection.to.x}
         y2={connection.to.y}
-        stroke="rgba(255,255,255,0.55)"
-        strokeWidth={0.22}
+        stroke="rgba(255,255,255,0.65)"
+        strokeWidth={0.26}
         strokeLinecap="round"
+        vectorEffect="non-scaling-stroke"
         style={{ pathLength: lineProgress }}
       />
       <motion.circle
@@ -236,10 +239,10 @@ function ProjectCard({ project, index, scrollDirectionRef }: ProjectCardProps) {
   const cardContent = (
     <>
       <div className={`${isEven ? 'order-1 sm:order-1' : 'order-1 sm:order-2'} flex flex-col gap-4`}>
-        <h3 className="text-4xl font-semibold text-white sm:text-6xl">{project.title}</h3>
-        <p className="text-[22.4px] leading-relaxed text-slate-200 sm:text-[25.6px]">{project.description}</p>
+        <h3 className="text-[18px] font-semibold text-white sm:text-[30px]">{project.title}</h3>
+        <p className="text-[14.56px] leading-relaxed text-slate-200 sm:text-[16.64px]">{project.description}</p>
         {hasHref && (
-          <span className="inline-flex items-center gap-2 text-[22.4px] font-semibold text-cyan-200 transition group-hover:gap-3">
+          <span className="inline-flex items-center gap-2 text-[14.56px] font-semibold text-cyan-200 transition group-hover:gap-3 sm:text-[16.64px]">
             Visit project
             <svg viewBox="0 0 24 24" aria-hidden className="h-4 w-4">
               <path
@@ -476,6 +479,7 @@ export default function NewHomePage({ intro, projects }: ProjectContent) {
   const projectsRef = useRef<HTMLDivElement | null>(null);
   const { scrollY } = useScroll();
   const [viewportWidth, setViewportWidth] = useState<number | null>(null);
+  const [canvasRatio, setCanvasRatio] = useState(1);
   const [isMounted, setIsMounted] = useState(false);
   const stars = useMemo(() => createStars(220), []);
   const connections = useMemo(() => createConnections(stars, 44), [stars]);
@@ -495,6 +499,39 @@ export default function NewHomePage({ intro, projects }: ProjectContent) {
     updateWidth();
     window.addEventListener('resize', updateWidth);
     return () => window.removeEventListener('resize', updateWidth);
+  }, []);
+
+  useEffect(() => {
+    const element = projectsRef.current;
+    if (!element || typeof ResizeObserver === 'undefined') {
+      return;
+    }
+
+    const updateRatio = () => {
+      const rect = element.getBoundingClientRect();
+      if (rect.width > 0 && rect.height > 0) {
+        setCanvasRatio(rect.height / rect.width);
+      }
+    };
+
+    updateRatio();
+
+    const observer = new ResizeObserver((entries) => {
+      const entry = entries[0];
+      if (!entry) {
+        return;
+      }
+      const { width, height } = entry.contentRect;
+      if (width > 0 && height > 0) {
+        setCanvasRatio(height / width);
+      }
+    });
+
+    observer.observe(element);
+
+    return () => {
+      observer.disconnect();
+    };
   }, []);
 
   useEffect(() => {
@@ -570,13 +607,14 @@ export default function NewHomePage({ intro, projects }: ProjectContent) {
           <Image
             src="/signatures/signature.svg"
             alt="Signature of Eoghan Collins"
-            width={380}
-            height={140}
+            width={570}
+            height={210}
             priority
-            className="w-[min(90vw,33rem)] object-contain"
+            className="w-[min(90vw,49.5rem)] object-contain"
           />
           <p className="mt-6 font-sans text-[14px] font-semibold uppercase tracking-[0.6em] text-slate-900/80 sm:text-[22.4px]">Founder | Engineer</p>
         </div>
+        <div className="z-10 flex-1 min-h-[120px] sm:min-h-[160px] lg:min-h-[200px]" aria-hidden />
 
         <div className={`pointer-events-none absolute inset-x-0 bottom-0 ${isCompact ? 'h-[58vh]' : 'h-[64vh]'} z-0`}>
           <div
@@ -644,15 +682,21 @@ export default function NewHomePage({ intro, projects }: ProjectContent) {
               scale: fractalScale,
             }}
           >
-            {stars.map((star) => (
-              <circle
-                key={star.id}
-                cx={star.x}
-                cy={star.y}
-                r={star.size / 18}
-                fill="rgba(255,255,255,0.7)"
-              />
-            ))}
+            {stars.map((star) => {
+              const ratio = canvasRatio > 0 ? canvasRatio : 1;
+              const rx = star.size / 18;
+              const ry = rx / ratio;
+              return (
+                <ellipse
+                  key={star.id}
+                  cx={star.x}
+                  cy={star.y}
+                  rx={rx}
+                  ry={ry}
+                  fill="rgba(255,255,255,0.7)"
+                />
+              );
+            })}
           </motion.svg>
         ) : (
           <svg
@@ -660,15 +704,21 @@ export default function NewHomePage({ intro, projects }: ProjectContent) {
             preserveAspectRatio="none"
             className="pointer-events-none absolute inset-0 z-0 h-full w-full"
           >
-            {stars.map((star) => (
-              <circle
-                key={star.id}
-                cx={star.x}
-                cy={star.y}
-                r={star.size / 18}
-                fill="rgba(255,255,255,0.7)"
-              />
-            ))}
+            {stars.map((star) => {
+              const ratio = canvasRatio > 0 ? canvasRatio : 1;
+              const rx = star.size / 18;
+              const ry = rx / ratio;
+              return (
+                <ellipse
+                  key={star.id}
+                  cx={star.x}
+                  cy={star.y}
+                  rx={rx}
+                  ry={ry}
+                  fill="rgba(255,255,255,0.7)"
+                />
+              );
+            })}
           </svg>
         )}
         {isMounted ? (
@@ -679,6 +729,7 @@ export default function NewHomePage({ intro, projects }: ProjectContent) {
             translate={fractalSecondaryTranslate}
             progress={constellationProgress}
             projectsRef={projectsRef}
+            aspectRatio={canvasRatio}
           />
         ) : null}
         <div className="layout-shell relative z-20 px-6 sm:px-10">

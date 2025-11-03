@@ -11,15 +11,15 @@
 @layer components {
   .layout-shell {
     width: 100%;
-    max-width: 1280px;
+    max-width: 100%;
     margin-left: auto;
     margin-right: auto;
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1280px) {
   .layout-shell {
-    max-width: min(1280px, 66vw);
+    max-width: min(1200px, 66vw);
   }
 }
 

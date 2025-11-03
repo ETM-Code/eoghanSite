@@ -25,7 +25,7 @@ export const getSupabaseBrowserClient = () => {
       auth: {
         persistSession: true,
         autoRefreshToken: true,
-        storageKey: 'scholar-matcher-session',
+        storageKey: 'scholar-directory-session',
       },
     });
   }

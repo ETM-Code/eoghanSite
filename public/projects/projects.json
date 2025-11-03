@@ -19,13 +19,6 @@
       "href": "/tarski"
     },
     {
-      "id": "scholar-matcher",
-      "title": "Web Summit Scholar Matcher",
-      "description": "A mini social network for Web Summit scholars to show off their projects and connect with other scholars.",
-      "image": "/projects/images/scholar-matcher.png",
-      "href": "/scholar-matcher"
-    },
-    {
       "id": "tyndall",
       "title": "Laser Power Transmission System",
       "description": "A laser power transmission system buit in collaboration with Tyndall National Institute that uses 450nm lasers to drive functional logic and transmission circuits, achieving significant wireless power transmission and broadening the field of power photonics, presented at Photonics Ireland.",
