@@ -17,12 +17,38 @@
 ],
 
   "links": [
+    {"id": "cv",
+      "label": "CV",
+      "href": "/cv.pdf",
+      "description": "View my CV.",
+      "icon": "/links/icons/cv.svg"
+    },
     {
-      "id": "whatsapp",
-      "label": "WhatsApp",
-      "href": "https://wa.me/qr/PGPN2UMA7TZCM1",
-      "description": "Message me instantly to start a conversation.",
-      "icon": "/links/icons/whatsapp.png"
+      "id": "tarski",
+      "title": "Project Tarski",
+      "description": "Sub-Watt, Instant AI. Coming Soon.",
+      "image": "/projects/images/tarski.png",
+      "href": "/tarski"
+    },
+    {
+      "id": "grid-simulator",
+      "title": "GridAI",
+      "description": "Custom machine learning to optimise energy policy and grid development.",
+      "image": "/projects/images/gridAI.png",
+      "href": "https://github.com/ETM-Code/eirgrid"
+    },
+    {"id": "personal-website",
+      "title": "Personal Website",
+      "description": "My personal website.",
+      "image": "/projects/siteshot.png",
+      "href": "https://eoghancollins.com"
+    },
+    {
+      "id": "email",
+      "label": "Email Me",
+      "href": "mailto:eoghan@studysmith.app",
+      "description": "",
+      "icon": "/links/icons/email.svg"
     },
     {
       "id": "linkedin",
@@ -32,11 +58,18 @@
       "icon": "/links/icons/linkedin.svg"
     },
     {
-      "id": "x",
-      "label": "X (Twitter)",
-      "href": "https://x.com/etmcollins",
-      "description": "Quick thoughts and updates.",
-      "icon": "/links/icons/x.svg"
+      "id": "drive",
+      "label": "Google Drive",
+      "href": "https://drive.google.com/your-folder",
+      "description": "1-pagers for my projects.",
+      "icon": "/links/icons/google-drive.svg"
+    },
+    {
+      "id": "calendly",
+      "label": "Calendly",
+      "href": "https://calendly.com/eoghan-studysmith/30min",
+      "description": "Let's discuss collaboration opportunities.",
+      "icon": "/links/icons/calendly.svg"
     },
     {
       "id": "studysmith",
@@ -44,27 +77,6 @@
       "href": "https://studysmith.app",
       "description": "The future of education.",
       "icon": "/links/icons/studysmith-white-bg.png"
-    },
-    {
-      "id": "calendly",
-      "label": "Calendly",
-      "href": "https://calendly.com/eoghan-studysmith/30min",
-      "description": "Pick a time for a chat that suits us both.",
-      "icon": "/links/icons/calendly.svg"
-    },
-    {
-      "id": "email",
-      "label": "Email",
-      "href": "mailto:eoghan@studysmith.app",
-      "description": "Drop me a considered note and I will reply soon.",
-      "icon": "/links/icons/email.svg"
-    },
-    {
-      "id": "drive",
-      "label": "Google Drive",
-      "href": "https://drive.google.com/your-folder",
-      "description": "1-pagers for my projects.",
-      "icon": "/links/icons/google-drive.svg"
     }
   ]
 }
