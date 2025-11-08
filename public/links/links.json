@@ -7,13 +7,15 @@
     "avatar": "images/avatar-cropped.jpg"
   },
 "linkOrder": [
-  "studysmith",   
-  "calendly",     
-  "whatsapp",     
-  "linkedin",     
-  "x",            
-  "email",        
-  "drive"         
+  "cv",
+  "tarski",
+  "grid-simulator",
+  "personal-website",
+  "github",
+  "email",
+  "linkedin",
+  "calendly",
+  "studysmith"
 ],
 
   "links": [
@@ -21,27 +23,33 @@
       "label": "CV",
       "href": "/cv.pdf",
       "description": "View my CV.",
-      "icon": "/links/icons/cv.svg"
+      "icon": "/links/icons/CV.png"
     },
     {
       "id": "tarski",
-      "title": "Project Tarski",
+      "label": "Project Tarski",
       "description": "Sub-Watt, Instant AI. Coming Soon.",
-      "image": "/projects/images/tarski.png",
+      "icon": "/projects/images/tarski.png",
       "href": "/tarski"
     },
     {
       "id": "grid-simulator",
-      "title": "GridAI",
+      "label": "GridAI",
       "description": "Custom machine learning to optimise energy policy and grid development.",
-      "image": "/projects/images/gridAI.png",
+      "icon": "/projects/images/gridAI.png",
       "href": "https://github.com/ETM-Code/eirgrid"
     },
     {"id": "personal-website",
-      "title": "Personal Website",
+      "label": "Personal Website",
       "description": "My personal website.",
-      "image": "/projects/siteshot.png",
+      "icon": "/siteshot.png",
       "href": "https://eoghancollins.com"
+    },
+    {"id": "github",
+      "label": "GitHub",
+      "href": "https://github.com/ETM-Code",
+      "description": "My GitHub profile.",
+      "icon": "/links/icons/github-mark.svg"
     },
     {
       "id": "email",
@@ -56,13 +64,6 @@
       "href": "https://www.linkedin.com/in/eoghan-timothy-collins",
       "description": "Professional experience.",
       "icon": "/links/icons/linkedin.svg"
-    },
-    {
-      "id": "drive",
-      "label": "Google Drive",
-      "href": "https://drive.google.com/your-folder",
-      "description": "1-pagers for my projects.",
-      "icon": "/links/icons/google-drive.svg"
     },
     {
       "id": "calendly",
