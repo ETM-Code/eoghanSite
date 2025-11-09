@@ -2,7 +2,7 @@
   "bio": {
     "name": "Eoghan Collins",
     "tagline": "Engineer | Founder.",
-    "description": "Building analog neuromorphic computing chips for ultra-low-power AI. Previous: 2.5M sim-years/hour energy grid optimizer, laser power systems at Tyndall, concussion sensor startup. Currently seeking 8-month placement in AI hardware/robotics (Jan 2027).",
+    "description": "Building analog neuromorphic computing chips for ultra-low-power AI. Previous: 2.5M sim-years/hour energy grid optimizer, laser power systems at Tyndall, concussion sensor startup. Currently seeking 8-month placement in (Jan 2027) and Summer '26 internship AI hardware/robotics.",
     "location": "Galway, Ireland",
     "avatar": "images/avatar-cropped.jpg"
   },
@@ -76,7 +76,7 @@
       "id": "studysmith",
       "label": "StudySmith",
       "href": "https://studysmith.app",
-      "description": "The future of education.",
+      "description": "My startup. The future of learning.",
       "icon": "/links/icons/studysmith-white-bg.png"
     }
   ]
